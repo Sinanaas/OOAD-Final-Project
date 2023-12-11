@@ -1,5 +1,6 @@
 package view;
 
+import controller.UserController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -59,7 +60,13 @@ public class LoginPage {
 
 	private void addEventListener() {
 		loginButton.setOnMouseClicked(e -> {
-			
+			String username = usernameInput.getText();
+			String password = passwordInput.getText();
+			if (UserController.login(username, password)) {
+				UserHomePage userHomePage = UserHomePage.getInstance();
+				userHomePage.show();
+			}
+
 		});
 
 		registerHyperlink.setOnAction(e -> {
