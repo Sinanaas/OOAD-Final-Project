@@ -32,12 +32,9 @@ public class RegisterPage {
 
 	private Scene scene;
 	private VBox vb;
-	private HBox radioButtonHBox;
-	private Label registerTitle, usernameTitle, emailTitle, passwordTitle, genderTitle;
-	private TextField usernameInput, emailInput;
-	private PasswordField passwordInput;
-	private ToggleGroup genderToggleGroup;
-	private RadioButton maleRadioButton, femaleRadioButton;
+	private Label registerTitle, usernameTitle, passwordTitle, confirmPasswordTitle, ageTitle;
+	private TextField usernameInput, ageInput;
+	private PasswordField passwordInput, confirmPasswordInput;
 	private Button registerButton;
 	private Hyperlink loginHyperlink;
 
@@ -48,30 +45,34 @@ public class RegisterPage {
 
 	private void initialize() {
 		vb = new VBox(10);
+
+		// register
 		registerTitle = new Label("Register");
+		registerButton = new Button("Register");
+
+		// username
 		usernameTitle = new Label("Username");
-		emailTitle = new Label("Email");
-		passwordTitle = new Label("Password");
-		genderTitle = new Label("Gender");
 		usernameInput = new TextField();
 		usernameInput.setPromptText("Input your username here");
-		emailInput = new TextField();
-		emailInput.setPromptText("Input your email here");
+
+		// password
+		passwordTitle = new Label("Password");
 		passwordInput = new PasswordField();
 		passwordInput.setPromptText("Input your password here");
 
-		radioButtonHBox = new HBox(10);
-		genderToggleGroup = new ToggleGroup();
-		maleRadioButton = new RadioButton("Male");
-		femaleRadioButton = new RadioButton("Female");
-		maleRadioButton.setToggleGroup(genderToggleGroup);
-		femaleRadioButton.setToggleGroup(genderToggleGroup);
-		radioButtonHBox.getChildren().addAll(maleRadioButton, femaleRadioButton);
+		// confirm password
+		confirmPasswordTitle = new Label("Confirm Password");
+		confirmPasswordInput = new PasswordField();
+		confirmPasswordInput.setPromptText("Input your password here");
 
-		registerButton = new Button("Register");
+		// age
+		ageTitle = new Label("Age");
+		ageInput = new TextField();
+		ageInput.setPromptText("Input your age here");
+
 		loginHyperlink = new Hyperlink("Already have an account? Click here to login!");
-		vb.getChildren().addAll(registerTitle, usernameTitle, usernameInput, emailTitle, emailInput, passwordTitle,
-				passwordInput, genderTitle, radioButtonHBox, registerButton, loginHyperlink);
+		vb.getChildren().addAll(registerTitle, usernameTitle, usernameInput, passwordTitle,
+				passwordInput, confirmPasswordTitle, confirmPasswordInput, ageTitle, ageInput, registerButton, loginHyperlink);
 
 		registerTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		vb.setAlignment(Pos.CENTER_LEFT);
@@ -79,16 +80,17 @@ public class RegisterPage {
 		scene = new Scene(vb, 800, 600);
 	}
 
+
 	private void addEventListener() {
 		registerButton.setOnMouseClicked(e -> {
 			String username = usernameInput.getText();
-			String userEmail = emailInput.getText();
 			String userPassword = passwordInput.getText();
-			String userGender = ((RadioButton) genderToggleGroup.getSelectedToggle()).getText();
-			
-			if(UserController.register(username, userEmail, userPassword, userGender)) {
+			String userConfirmPassword = confirmPasswordInput.getText();
+			Integer userAge = ageInput.getText().isEmpty() ? 0 : Integer.parseInt(ageInput.getText());
+
+			if(UserController.register(username, userPassword, userAge, userConfirmPassword)) {
 				LoginPage loginPage = LoginPage.getInstance();
-				loginPage.show();				
+				loginPage.show();
 			}
 		});
 

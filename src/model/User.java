@@ -2,33 +2,75 @@ package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import database.Connect;
 
 public class User {
 	private String UserID;
 	private String Username;
-	private String userEmail;
-
 	private String UserPassword;
-	private String userGender;
-	
-	
-	public User(String userID, String username, String userEmail, String userPassword, String userGender) {
-		super();
-		this.UserID = userID;
-		this.Username = username;
-		this.userEmail = userEmail;
-		this.UserPassword = userPassword;
-		this.userGender = userGender;
+	private Integer UserAge;
+	private Integer UserRole;
+
+	public static String generateID() {
+		Connect connect = Connect.getConnection();
+		String query = "SELECT * FROM Users ORDER BY UserID DESC LIMIT 1";
+		ResultSet rs = connect.executeQuery(query);
+
+		String nextID = "US001";
+
+		try {
+			if (rs.next()) {
+				String lastID = rs.getString("UserID");
+				String lastDigitID = lastID.substring(2);
+				Integer lastDigitIDInt = Integer.parseInt(lastDigitID);
+				nextID = "US" + String.format("%03d", (lastDigitIDInt + 1));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return nextID;
+
 	}
 
-	public String getUserEmail() {
-		return userEmail;
+	public static void register(String username, String userPassword, int userAge, int userRole) {
+		Connect connect = Connect.getConnection();
+		String query = String.format("INSERT INTO users VALUES('%s', '%s', '%s', '%d', '%d')", generateID(), username, userPassword, userAge, userRole);
+		connect.executeUpdate(query);
 	}
-	
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+
+	public static boolean isUsernameExists(String username) {
+		Connect connect = Connect.getConnection();
+		String query = String.format("SELECT * FROM users WHERE Username = '%s'", username);
+		ResultSet rs = connect.executeQuery(query);
+
+		try {
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	public static boolean isPasswordMatch(String username, String userPassword) {
+		Connect connect = Connect.getConnection();
+		String query = String.format("SELECT * FROM users WHERE Username = '%s' AND UserPassword = '%s'", username, userPassword);
+		ResultSet rs = connect.executeQuery(query);
+
+		try {
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 
 	public String getUserID() {
@@ -55,40 +97,27 @@ public class User {
 		UserPassword = userPassword;
 	}
 
-	public String getUserGender() {
-		return userGender;
+	public Integer getUserAge() {
+		return UserAge;
 	}
 
-	public void setUserGender(String userGender) {
-		this.userGender = userGender;
+	public void setUserAge(Integer userAge) {
+		UserAge = userAge;
 	}
-	
-	public static String generateID() {
-		Connect connect = Connect.getConnection();
-		String query = "SELECT * FROM Users ORDER BY UserID DESC LIMIT 1";
-		ResultSet rs = connect.executeQuery(query);
-		
-		String nextID = "US001";
-		
-		try {
-			if (rs.next()) {
-				String lastID = rs.getString("UserID");
-				String lastDigitID = lastID.substring(2);
-				Integer lastDigitIDInt = Integer.parseInt(lastDigitID);
-				nextID = "US" + String.format("%03d", (lastDigitIDInt + 1));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return nextID;
-		
+
+	public Integer getUserRole() {
+		return UserRole;
 	}
-	
-	public static void register(String username, String userEmail, String userPassword, String userGender) {
-		Connect connect = Connect.getConnection();
-		String query = String.format("INSERT INTO users VALUES('%s', '%s', '%s', '%s', '%s')", generateID(), username, userEmail, userPassword, userGender);
-		connect.executeUpdate(query);
+
+	public void setUserRole(Integer userRole) {
+		UserRole = userRole;
 	}
-	
+
+	public User(String userID, String username, String userPassword, Integer userAge, Integer userRole) {
+		UserID = userID;
+		Username = username;
+		UserPassword = userPassword;
+		UserAge = userAge;
+		UserRole = userRole;
+	}
 }
