@@ -26,12 +26,16 @@ public class UserController {
 
 		// matching validation
 		if (!User.isPasswordMatch(username, userPassword)) {
-			Helper.showAlert(AlertType.ERROR, "Password doesn't match!");
+			Helper.showAlert(AlertType.ERROR, "Password or username doesn't match!");
 			return false;
 		}
 
 		Helper.showAlert(AlertType.INFORMATION, "Login Success!");
 		return true;
+	}
+
+	public static User findUser(String username, String password) {
+		return User.findUser(username, password);
 	}
 
 	public static boolean register(String username, String userPassword, Integer ageInput, String confirmPassword) {

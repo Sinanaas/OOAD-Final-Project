@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
+import model.User;
+import helper.UserSessionHelper;
 
 public class LoginPage {
 	private static LoginPage loginPage;
@@ -50,8 +52,7 @@ public class LoginPage {
 		passwordInput.setPromptText("Input your password here");
 		loginButton = new Button("Login");
 		registerHyperlink = new Hyperlink("Don't have an account? Register Here!");
-		vb.getChildren().addAll(loginTitle, usernameTitle, usernameInput, passwordTitle, passwordInput, loginButton,
-				registerHyperlink);
+		vb.getChildren().addAll(loginTitle, usernameTitle, usernameInput, passwordTitle, passwordInput, loginButton, registerHyperlink);
 		loginTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		vb.setAlignment(Pos.CENTER_LEFT);
 		vb.setPadding(new Insets(50));
@@ -62,8 +63,11 @@ public class LoginPage {
 		loginButton.setOnMouseClicked(e -> {
 			String username = usernameInput.getText();
 			String password = passwordInput.getText();
+			User user = UserController.findUser(username, password);
 			if (UserController.login(username, password)) {
 				UserHomePage userHomePage = UserHomePage.getInstance();
+				UserSessionHelper userSession = UserSessionHelper.getInstance();
+				userSession.setLoggedInUserId(user.getUserID());
 				userHomePage.show();
 			}
 
@@ -74,5 +78,4 @@ public class LoginPage {
 			registerPage.show();
 		});
 	}
-
 }
