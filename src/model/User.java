@@ -32,7 +32,6 @@ public class User {
 			e.printStackTrace();
 		}
 		return nextID;
-
 	}
 
 	public static void register(String username, String userPassword, int userAge, int userRole) {
@@ -71,6 +70,48 @@ public class User {
 		}
 
 		return false;
+	}
+
+	public static User findUser(String username, String password) {
+		Connect connect = Connect.getConnection();
+		String query = String.format("SELECT * FROM users WHERE Username = '%s' AND UserPassword = '%s'", username, password);
+		ResultSet rs = connect.executeQuery(query);
+
+		try {
+			if (rs.next()) {
+				String userID = rs.getString("UserID");
+				String userUsername = rs.getString("Username");
+				String userPassword = rs.getString("UserPassword");
+				Integer userAge = rs.getInt("UserAge");
+				Integer userRole = rs.getInt("UserRole");
+				return new User(userID, userUsername, userPassword, userAge, userRole);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public static User getUserById(String UserID) {
+		Connect connect = Connect.getConnection();
+		String query = String.format("SELECT * FROM users WHERE UserID = '%s'", UserID);
+		ResultSet rs = connect.executeQuery(query);
+
+		try {
+			if (rs.next()) {
+				String userID = rs.getString("UserID");
+				String userUsername = rs.getString("Username");
+				String userPassword = rs.getString("UserPassword");
+				Integer userAge = rs.getInt("UserAge");
+				Integer userRole = rs.getInt("UserRole");
+				return new User(userID, userUsername, userPassword, userAge, userRole);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	public String getUserID() {
