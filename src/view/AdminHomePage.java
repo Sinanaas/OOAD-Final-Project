@@ -34,10 +34,10 @@ public class AdminHomePage {
                         viewAllStaffPage.show();
                 });
 
-//                pcManagement.setOnAction(e -> {
-//                        PCManagementPage pcManagementPage = PCManagementPage.getInstance();
-//                        pcManagementPage.show();
-//                });
+                pcManagement.setOnAction(e -> {
+                        PCManagementPage pcManagementPage = PCManagementPage.getInstance();
+                        pcManagementPage.show();
+                });
 //
 //                jobManagement.setOnAction(e -> {
 //                        JobManagementPage jobManagementPage = JobManagementPage.getInstance();

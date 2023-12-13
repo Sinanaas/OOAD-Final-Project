@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.scene.control.Alert;
 import model.PC;
 import model.PCBook;
 
@@ -13,9 +14,14 @@ public class PCBookController {
                 PCBook.addNewBook(bookID, pcID, userID, date);
         }
 
+        // gettPCBookedDetail(PCID)
         public static PC getPCBookedDetail(String pcID) {
                 if (pcID == null) {
-                        throw new IllegalArgumentException("PC ID must not be null");
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("PC ID cannot be empty");
+                        alert.showAndWait();
+                        return null;
                 }
                 return PCBook.getPCBookedDetail(pcID);
         }
