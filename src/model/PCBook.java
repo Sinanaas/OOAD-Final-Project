@@ -34,6 +34,7 @@ public class PCBook {
                 return nextID;
         }
 
+        // addNewBook(String bookID, String pcID, String userID, Date date)
         public static void addNewBook(String bookID, String pcID, String userID, Date date) {
                 Connect connect = Connect.getConnection();
                 String query = String.format("INSERT INTO PCBook VALUES('%s', '%s', '%s', '%s')", bookID, pcID, userID, date);

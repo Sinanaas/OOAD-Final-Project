@@ -1,5 +1,8 @@
 package view;
 
+import controller.PCController;
+import controller.ReportController;
+import controller.UserController;
 import helper.UserSessionHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,7 +54,7 @@ public class ReportPage {
                 reportNoteTextArea = new TextArea();
                 reportButton = new Button("Report");
 
-                ObservableList<PC> availablePCs = PC.getAllPCData();
+                ObservableList<PC> availablePCs = PCController.getAllPCData();
                 for (PC pc : availablePCs) {
                         pcComboBox.getItems().add(pc.getPCID());
                 }
@@ -66,14 +69,22 @@ public class ReportPage {
 
         private void addEventListener() {
                 reportButton.setOnAction(event -> {
-                        PC selectedPC = PC.findPC(pcComboBox.getValue());
+                        PC selectedPC = PCController.getPCDetail(pcComboBox.getValue());
 
                         String pcID = selectedPC != null ? selectedPC.getPCID() : "";
                         String reportNote = reportNoteTextArea.getText();
-                        User user = User.getUserById(UserSessionHelper.getInstance().getLoggedInUserId());
+//                        User user = UserController.getAllUserData().stream().filter(u -> u.getUserID().equals(UserSessionHelper.getInstance().getLoggedInUserId())).findFirst().orElse(null);
+                        User user = UserController.getAllUserData()
+                                .stream()
+                                .filter(u -> {
+                                        String loggedInUserId = UserSessionHelper.getInstance().getLoggedInUserId();
+                                        return loggedInUserId != null && loggedInUserId.equals(u.getUserID());
+                                }).findFirst().orElse(null);
 
-                        Report.addNewReport(user.getUserRole(), pcID, reportNote);
-                        // alert
+                        System.out.println(user.toString());
+                        assert user != null;
+//                        ReportController.addNewReport(user.getUserRole(), pcID, reportNote);
+
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Report PC");
                         alert.setHeaderText("Report PC Success");

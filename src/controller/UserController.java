@@ -4,41 +4,36 @@ import helper.Helper;
 import javafx.scene.control.Alert.AlertType;
 import model.User;
 
+import java.util.List;
+
 
 public class UserController {
-	public static boolean login(String username, String userPassword) {
+	// getUserData(String username, String password)
+	public static User getUserData(String username, String userPassword) {
 		// username validation
 		if (username.isEmpty()) {
 			Helper.showAlert(AlertType.ERROR, "Username cannot be empty!");
-			return false;
-		}
-
-		if (!User.isUsernameExists(username)) {
-			Helper.showAlert(AlertType.ERROR, "Username doesn't exists!");
-			return false;
+			return null;
 		}
 
 		// password validation
 		if (userPassword.isEmpty()) {
 			Helper.showAlert(AlertType.ERROR, "Password cannot be empty!");
-			return false;
+			return null;
 		}
 
-		// matching validation
-		if (!User.isPasswordMatch(username, userPassword)) {
-			Helper.showAlert(AlertType.ERROR, "Password or username doesn't match!");
-			return false;
+		// check if user exists
+		if (User.getUserData(username, userPassword) == null) {
+			Helper.showAlert(AlertType.ERROR, "User doesn't exists!");
+			return null;
 		}
 
 		Helper.showAlert(AlertType.INFORMATION, "Login Success!");
-		return true;
+		return User.getUserData(username, userPassword);
 	}
 
-	public static User findUser(String username, String password) {
-		return User.findUser(username, password);
-	}
-
-	public static boolean register(String username, String userPassword, Integer ageInput, String confirmPassword) {
+	// addNewUser(String username, String userPassword, Integer ageInput, String confirmPassword)
+	public static boolean addNewUser(String username, String userPassword, Integer ageInput, String confirmPassword) {
 		// username validation
 		if (username.isEmpty()) {
 			Helper.showAlert(AlertType.ERROR, "Username cannot be empty!");
@@ -50,7 +45,7 @@ public class UserController {
 			return false;
 		}
 
-		if (User.isUsernameExists(username)) {
+		if (User.getAllUserData().stream().anyMatch(user -> user.getUsername().equals(username))) {
 			Helper.showAlert(AlertType.ERROR, "Username already exists!");
 			return false;
 		}
@@ -92,9 +87,14 @@ public class UserController {
 			Helper.showAlert(AlertType.ERROR, "Age must be between 13 and 65!");
 			return false;
 		}
-		
-		User.register(username, userPassword, ageInput, 0);
+
+		User.addNewUser(username, userPassword, ageInput);
 		Helper.showAlert(AlertType.INFORMATION, "Register Success!");
 		return true;
+	}
+
+	// getAllUserData()
+	public static List<User> getAllUserData() {
+		return User.getAllUserData();
 	}
 }

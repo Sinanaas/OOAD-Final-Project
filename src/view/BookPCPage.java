@@ -1,5 +1,6 @@
 package view;
 
+import controller.PCBookController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -83,7 +84,7 @@ public class BookPCPage {
                         String bookID = bookIdInput.getText();
                         String pcID = pcIDInput.getText();
                         Date date = java.sql.Date.valueOf(datePicker.getValue());
-                        PCBook.addNewBook(bookID, pcID, UserSessionHelper.getInstance().getLoggedInUserId(), date);
+                        PCBookController.addNewBook(bookID, pcID, UserSessionHelper.getInstance().getLoggedInUserId(), date);
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Book PC");
                         alert.setHeaderText("Book PC Success");
