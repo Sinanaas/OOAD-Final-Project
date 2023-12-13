@@ -64,11 +64,24 @@ public class LoginPage {
 			String username = usernameInput.getText();
 			String password = passwordInput.getText();
 			User user = UserController.getUserData(username, password);
-			if (user != null) {
+			if (user == null) {
+				return;
+			}
+			UserSessionHelper userSession = UserSessionHelper.getInstance();
+			userSession.setLoggedInUserId(user.getUserID());
+
+			if (user.getUserRole() == 0) {
 				UserHomePage userHomePage = UserHomePage.getInstance();
-				UserSessionHelper userSession = UserSessionHelper.getInstance();
-				userSession.setLoggedInUserId(user.getUserID());
 				userHomePage.show();
+			} else if (user.getUserRole() == 1) {
+//				TechinicianHomePage techinicianHomePage = TechinicianHomePage.getInstance();
+//				techinicianHomePage.show();
+			} else if (user.getUserRole() == 2) {
+//				OperatorHomePage operatorHomePage = OperatorHomePage.getInstance();
+//				operatorHomePage.show();
+			} else if (user.getUserRole() == 3) {
+				AdminHomePage adminHomePage = AdminHomePage.getInstance();
+				adminHomePage.show();
 			}
 		});
 

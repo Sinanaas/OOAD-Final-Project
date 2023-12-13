@@ -1,7 +1,6 @@
 package model;
 
 import database.Connect;
-import helper.UserSessionHelper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

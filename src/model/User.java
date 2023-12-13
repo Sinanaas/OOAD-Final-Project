@@ -35,13 +35,6 @@ public class User {
 		return nextID;
 	}
 
-	// addNewUser(Username, UserPassword, UserAge)
-	public static void addNewUser(String username, String userPassword, int userAge) {
-		Connect connect = Connect.getConnection();
-		String query = String.format("INSERT INTO users VALUES('%s', '%s', '%s', '%d', '%d')", generateID(), username, userPassword, userAge, 0);
-		connect.executeUpdate(query);
-	}
-
 	// getAllUserData()
 	public static List<User> getAllUserData() {
 		Connect connect = Connect.getConnection();
@@ -63,7 +56,6 @@ public class User {
 		return userList;
 	}
 
-
 	// getUserData(Username, Password)
 	public static User getUserData(String username, String password) {
 		Connect connect = Connect.getConnection();
@@ -84,6 +76,22 @@ public class User {
 		}
 		return user;
 	}
+
+	// addNewUser(Username, UserPassword, UserAge)
+	public static void addNewUser(String username, String userPassword, int userAge) {
+		Connect connect = Connect.getConnection();
+		String query = String.format("INSERT INTO users VALUES('%s', '%s', '%s', '%d', '%d')", generateID(), username, userPassword, userAge, 0);
+		connect.executeUpdate(query);
+	}
+
+	// changeUserRole(UserID, newRole)
+	public static void changeUserRole(String userID, int newRole) {
+		Connect connect = Connect.getConnection();
+		String query = String.format("UPDATE users SET UserRole = '%d' WHERE UserID = '%s'", newRole, userID);
+		connect.executeUpdate(query);
+	}
+
+
 
 	// getter, setter, and constructor
 	@Override
@@ -142,5 +150,18 @@ public class User {
 		UserPassword = userPassword;
 		UserAge = userAge;
 		UserRole = userRole;
+	}
+
+	public String getRoleName() {
+		switch (UserRole) {
+			case 1:
+				return "Computer Technician";
+			case 2:
+				return "Operator";
+			case 3:
+				return "Admin";
+			default:
+				return "Unknown Role";
+		}
 	}
 }
