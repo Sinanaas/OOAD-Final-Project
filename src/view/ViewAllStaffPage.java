@@ -53,6 +53,7 @@ public class ViewAllStaffPage {
         }
 
         public void show() {
+                _repaint();
                 MainStage mainStage = MainStage.getInstance();
                 mainStage.getStage().setScene(scene);
         }
