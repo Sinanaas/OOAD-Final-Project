@@ -88,7 +88,7 @@ public class RegisterPage {
 			String userConfirmPassword = confirmPasswordInput.getText();
 			Integer userAge = ageInput.getText().isEmpty() ? 0 : Integer.parseInt(ageInput.getText());
 
-			if(UserController.register(username, userPassword, userAge, userConfirmPassword)) {
+			if(UserController.addNewUser(username, userPassword, userAge, userConfirmPassword)) {
 				LoginPage loginPage = LoginPage.getInstance();
 				loginPage.show();
 			}

@@ -63,14 +63,13 @@ public class LoginPage {
 		loginButton.setOnMouseClicked(e -> {
 			String username = usernameInput.getText();
 			String password = passwordInput.getText();
-			User user = UserController.findUser(username, password);
-			if (UserController.login(username, password)) {
+			User user = UserController.getUserData(username, password);
+			if (user != null) {
 				UserHomePage userHomePage = UserHomePage.getInstance();
 				UserSessionHelper userSession = UserSessionHelper.getInstance();
 				userSession.setLoggedInUserId(user.getUserID());
 				userHomePage.show();
 			}
-
 		});
 
 		registerHyperlink.setOnAction(e -> {

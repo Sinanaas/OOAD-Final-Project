@@ -76,24 +76,6 @@ public class PC {
                 connect.executeUpdate(query);
         }
 
-        // findPC(PCID)
-        public static PC findPC(String PCID) {
-                Connect connect = Connect.getConnection();
-                String query = String.format("SELECT * FROM PC WHERE PCID = '%s'", PCID);
-                ResultSet rs = connect.executeQuery(query);
-                try {
-                        if (rs.next()) {
-                                String pcID = rs.getString("PCID");
-                                String pcCondition = rs.getString("PCCondition");
-                                PC pc = new PC(pcID, pcCondition);
-                                return pc;
-                        }
-                } catch (SQLException e) {
-                        e.printStackTrace();
-                }
-                return null;
-        }
-
         // GetPCDetail(PCID)
         public static PC getPCDetail(String PCID) {
                 Connect connect = Connect.getConnection();
@@ -112,6 +94,8 @@ public class PC {
                 return null;
         }
 
+
+        // getter, setter, and constructor
         public PC(String PCID, String PCCondition) {
                 this.PCID = PCID;
                 this.PCCondition = PCCondition;

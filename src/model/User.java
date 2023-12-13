@@ -3,6 +3,7 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import database.Connect;
 
@@ -34,49 +35,41 @@ public class User {
 		return nextID;
 	}
 
-	public static void register(String username, String userPassword, int userAge, int userRole) {
+	// addNewUser(Username, UserPassword, UserAge)
+	public static void addNewUser(String username, String userPassword, int userAge) {
 		Connect connect = Connect.getConnection();
-		String query = String.format("INSERT INTO users VALUES('%s', '%s', '%s', '%d', '%d')", generateID(), username, userPassword, userAge, userRole);
+		String query = String.format("INSERT INTO users VALUES('%s', '%s', '%s', '%d', '%d')", generateID(), username, userPassword, userAge, 0);
 		connect.executeUpdate(query);
 	}
 
-	public static boolean isUsernameExists(String username) {
+	// getAllUserData()
+	public static List<User> getAllUserData() {
 		Connect connect = Connect.getConnection();
-		String query = String.format("SELECT * FROM users WHERE Username = '%s'", username);
+		String query = "SELECT * FROM users";
 		ResultSet rs = connect.executeQuery(query);
-
+		List<User> userList = new ArrayList<>();  // Initialize the list here
 		try {
-			if (rs.next()) {
-				return true;
+			while (rs.next()) {
+				String userID = rs.getString("UserID");
+				String username = rs.getString("Username");
+				String userPassword = rs.getString("UserPassword");
+				Integer userAge = rs.getInt("UserAge");
+				Integer userRole = rs.getInt("UserRole");
+				userList.add(new User(userID, username, userPassword, userAge, userRole));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		return false;
+		return userList;
 	}
 
-	public static boolean isPasswordMatch(String username, String userPassword) {
-		Connect connect = Connect.getConnection();
-		String query = String.format("SELECT * FROM users WHERE Username = '%s' AND UserPassword = '%s'", username, userPassword);
-		ResultSet rs = connect.executeQuery(query);
 
-		try {
-			if (rs.next()) {
-				return true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return false;
-	}
-
-	public static User findUser(String username, String password) {
+	// getUserData(Username, Password)
+	public static User getUserData(String username, String password) {
 		Connect connect = Connect.getConnection();
 		String query = String.format("SELECT * FROM users WHERE Username = '%s' AND UserPassword = '%s'", username, password);
 		ResultSet rs = connect.executeQuery(query);
-
+		User user = null;
 		try {
 			if (rs.next()) {
 				String userID = rs.getString("UserID");
@@ -84,36 +77,25 @@ public class User {
 				String userPassword = rs.getString("UserPassword");
 				Integer userAge = rs.getInt("UserAge");
 				Integer userRole = rs.getInt("UserRole");
-				return new User(userID, userUsername, userPassword, userAge, userRole);
+				user = new User(userID, userUsername, userPassword, userAge, userRole);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		return null;
+		return user;
 	}
 
-	public static User getUserById(String UserID) {
-		Connect connect = Connect.getConnection();
-		String query = String.format("SELECT * FROM users WHERE UserID = '%s'", UserID);
-		ResultSet rs = connect.executeQuery(query);
-
-		try {
-			if (rs.next()) {
-				String userID = rs.getString("UserID");
-				String userUsername = rs.getString("Username");
-				String userPassword = rs.getString("UserPassword");
-				Integer userAge = rs.getInt("UserAge");
-				Integer userRole = rs.getInt("UserRole");
-				return new User(userID, userUsername, userPassword, userAge, userRole);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+	// getter, setter, and constructor
+	@Override
+	public String toString() {
+		return "User{" +
+			"UserID='" + UserID + '\'' +
+			", Username='" + Username + '\'' +
+			", UserPassword='" + UserPassword + '\'' +
+			", UserAge=" + UserAge +
+			", UserRole=" + UserRole +
+			'}';
 	}
-
 	public String getUserID() {
 		return UserID;
 	}

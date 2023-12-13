@@ -1,5 +1,7 @@
 package view;
 
+import controller.PCBookController;
+import controller.PCController;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -84,7 +86,7 @@ public class UserHomePage {
                                                                 return;
                                                         }
 
-                                                        if (PCBook.getPCBookedDetail(pc.getPCID()) == null ) {
+                                                        if (PCBookController.getPCBookedDetail(pc.getPCID()) == null ) {
                                                                 BookPCPage bookPCPage = BookPCPage.getInstance(pc.getPCID());
                                                                 bookPCPage.show();
                                                         } else {
@@ -116,7 +118,7 @@ public class UserHomePage {
 
                 TableView<PC> pcTable = new TableView<>();
                 pcTable.getColumns().addAll(pcIDColumn, pcConditionColumn, bookPCColumn);
-                pcTable.getItems().addAll(PC.getAllPCData());
+                pcTable.getItems().addAll(PCController.getAllPCData());
                 pcTable.setPrefHeight(400);
                 pcTable.setPrefWidth(800);
                 vb.getChildren().addAll(pcTable, reportButton);
