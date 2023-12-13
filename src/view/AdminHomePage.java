@@ -49,10 +49,10 @@ public class AdminHomePage {
 //                        transactionHistoryPage.show();
 //                });
 //
-//                viewAllReport.setOnAction(e -> {
-//                        ViewAllReportPage viewAllReportPage = ViewAllReportPage.getInstance();
-//                        viewAllReportPage.show();
-//                });
+                viewAllReport.setOnAction(e -> {
+                        ViewAllReportPage viewAllReportPage = ViewAllReportPage.getInstance();
+                        viewAllReportPage.show();
+                });
         }
 
         public void show() {

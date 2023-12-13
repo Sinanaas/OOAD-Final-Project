@@ -33,6 +33,6 @@ public class ReportController {
         }
 
         public static List<Report> getAllReportData() {
-                return model.Report.getAllReportData();
+                return Report.getAllReportData();
         }
 }
