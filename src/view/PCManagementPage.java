@@ -1,7 +1,7 @@
 package view;
 
+import controller.PCBookController;
 import controller.PCController;
-import controller.UserController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -12,9 +12,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.PC;
-import model.User;
-
-import java.util.stream.Collectors;
 
 public class PCManagementPage {
         private static PCManagementPage pcManagementPage;
@@ -56,7 +53,18 @@ public class PCManagementPage {
                 updatePC.setOnAction(e -> {
                         String pcID = pcIDField.getText();
                         String pcCondition = pcConditionField.getValue();
-                        PCController.updatePC(pcID, pcCondition);
+
+                        if (PCBookController.getPCBookedDetail(pcID) == null) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("Error");
+                                alert.setContentText("PC is booked");
+                                alert.showAndWait();
+                                return;
+                        } else {
+                                PCController.updatePCCondition(pcID, pcCondition);
+                        }
+
                         _repaint();
                         pcIDField.clear();
                         pcConditionField.setValue(null);

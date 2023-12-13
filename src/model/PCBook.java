@@ -2,8 +2,10 @@ package model;
 
 import database.Connect;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -81,8 +83,23 @@ public class PCBook {
         }
 
         // getAllPCBookedData()
-        public static ResultSet getAllPCBookedData() {
-                return null;
+        public static List<PCBook> getAllPCBookedData() {
+                Connect connect = Connect.getConnection();
+                String query = "SELECT * FROM PCBook";
+                ResultSet rs = connect.executeQuery(query);
+                List<PCBook> pcBookList = new ArrayList<>(); // Initialize as an empty ArrayList
+                try {
+                        while (rs.next()) {
+                                String bookID = rs.getString("BookID");
+                                String pcID = rs.getString("PCID");
+                                String userID = rs.getString("UserID");
+                                Date bookedDate = rs.getDate("BookedDate");
+                                pcBookList.add(new PCBook(bookID, pcID, userID, bookedDate));
+                        }
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                }
+                return pcBookList;
         }
 
         // getPCBookedByDate(StartDate)
@@ -91,10 +108,61 @@ public class PCBook {
         }
 
         // assignUserToNewPC(String userID, String pcID,)
-        public static void assignUserToNewPC(String userID, String pcID, Date date) {
+        public static void assignUserToNewPC(String userID, String pcID) {
+                Connect connect = Connect.getConnection();
+                System.out.println("TEST PCBOOK MODEL:" + userID + " " + pcID);
 
+                String query = "UPDATE PCBook SET PCID = ? WHERE UserID = ?";
+
+                try (PreparedStatement preparedStatement = connect.prepareStatement(query)) {
+                        preparedStatement.setString(1, pcID);
+                        preparedStatement.setString(2, userID);
+                        preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                }
+                System.out.println(query);
         }
-        
 
 
+        // getter, setter, and constructor
+
+        public String getBookID() {
+                return BookID;
+        }
+
+        public void setBookID(String bookID) {
+                BookID = bookID;
+        }
+
+        public String getPCID() {
+                return PCID;
+        }
+
+        public void setPCID(String PCID) {
+                this.PCID = PCID;
+        }
+
+        public String getUserID() {
+                return UserID;
+        }
+
+        public void setUserID(String userID) {
+                UserID = userID;
+        }
+
+        public Date getBookedDate() {
+                return BookedDate;
+        }
+
+        public void setBookedDate(Date bookedDate) {
+                BookedDate = bookedDate;
+        }
+
+        public PCBook(String bookID, String PCID, String userID, Date bookedDate) {
+                BookID = bookID;
+                this.PCID = PCID;
+                UserID = userID;
+                BookedDate = bookedDate;
+        }
 }

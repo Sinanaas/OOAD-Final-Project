@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class PCController {
         // updatePC(PCID, PCCondition)
-        public static void updatePC(String PCID, String PCCondition) {
+        public static void updatePCCondition(String PCID, String PCCondition) {
                 ObservableList<PC> observableList = PC.getAllPCData();
                 ArrayList<PC> PCList = new ArrayList<>(observableList);
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -35,11 +35,6 @@ public class PCController {
                 } else if (PCList.stream().noneMatch(pc -> pc.getPCID().equals(PCID))) {
                         alert.setTitle("Error");
                         alert.setHeaderText("PC ID does not exist");
-                        alert.showAndWait();
-                        return;
-                } else if (PCBookController.getPCBookedDetail(PCID) != null) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC is booked");
                         alert.showAndWait();
                         return;
                 }

@@ -91,8 +91,6 @@ public class User {
 		connect.executeUpdate(query);
 	}
 
-
-
 	// getter, setter, and constructor
 	@Override
 	public String toString() {

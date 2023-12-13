@@ -39,10 +39,10 @@ public class AdminHomePage {
                         pcManagementPage.show();
                 });
 //
-//                jobManagement.setOnAction(e -> {
-//                        JobManagementPage jobManagementPage = JobManagementPage.getInstance();
-//                        jobManagementPage.show();
-//                });
+                jobManagement.setOnAction(e -> {
+                        JobManagementPage jobManagementPage = JobManagementPage.getInstance();
+                        jobManagementPage.show();
+                });
 //
 //                transactionHistory.setOnAction(e -> {
 //                        TransactionHistoryPage transactionHistoryPage = TransactionHistoryPage.getInstance();
