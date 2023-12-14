@@ -35,4 +35,16 @@ public class ReportController {
         public static List<Report> getAllReportData() {
                 return Report.getAllReportData();
         }
+
+        // deleteReport(reportID)
+        public static void deleteReportByPCID(String reportID) {
+                if (reportID == null) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Report ID cannot be empty");
+                        alert.showAndWait();
+                        return;
+                }
+                Report.deleteReportByPCID(reportID);
+        }
 }

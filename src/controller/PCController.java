@@ -2,9 +2,12 @@ package controller;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import model.Job;
 import model.PC;
+import model.Report;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PCController {
         // updatePC(PCID, PCCondition)
@@ -35,6 +38,11 @@ public class PCController {
                 } else if (PCList.stream().noneMatch(pc -> pc.getPCID().equals(PCID))) {
                         alert.setTitle("Error");
                         alert.setHeaderText("PC ID does not exist");
+                        alert.showAndWait();
+                        return;
+                }  else if (Integer.parseInt(PCID.substring(3, 5)) < 1) {
+                        alert.setTitle("Error");
+                        alert.setHeaderText("PC ID must be greater than 0");
                         alert.showAndWait();
                         return;
                 }
@@ -86,6 +94,8 @@ public class PCController {
         // deletePC(PCID)
         public static void deletePC(String PCID) {
                 ObservableList<PC> observableList = PC.getAllPCData();
+                List<Job> jobList = JobController.getAllJobData();
+                List<Report> reportList = ReportController.getAllReportData();
                 ArrayList<PC> PCList = new ArrayList<>(observableList);
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 if (PCID == null) {
@@ -113,6 +123,19 @@ public class PCController {
                         alert.setHeaderText("PC is booked");
                         alert.showAndWait();
                         return;
+                } else if (jobList.stream().anyMatch(job -> job.getPCID().equals(PCID))) {
+                        alert.setTitle("Error");
+                        alert.setHeaderText("PC is being maintained");
+                        alert.showAndWait();
+                        return;
+                }
+
+                if (reportList.stream().anyMatch(report -> report.getPCID().equals(PCID))) {
+                        ReportController.deleteReportByPCID(PCID);
+                        Alert info2 = new Alert(Alert.AlertType.INFORMATION);
+                        info2.setTitle("Success");
+                        info2.setHeaderText("Reports that are related to " + PCID + " has been deleted successfully");
+                        info2.showAndWait();
                 }
                 PC.deletePC(PCID);
                 Alert info = new Alert(Alert.AlertType.INFORMATION);

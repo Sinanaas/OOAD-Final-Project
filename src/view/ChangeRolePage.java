@@ -4,6 +4,7 @@ import controller.UserController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -37,6 +38,15 @@ public class ChangeRolePage {
         private void addEventListener() {
                 button.setOnAction(e -> {
                         System.out.println(roleComboBox.getValue());
+                        if (roleComboBox.getValue() == null) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("Error");
+                                alert.setContentText("Please select a role!");
+                                alert.showAndWait();
+                                return;
+                        }
+
                         if (roleComboBox.getValue().equals("Customer")) {
                                 UserController.changeUserRole(user.getUserID(), 0);
                         }else if (roleComboBox.getValue().equals("Computer Technician")) {
@@ -91,7 +101,7 @@ public class ChangeRolePage {
 
                 roleComboBox = new ComboBox<>();
                 roleComboBox.getItems().addAll("Customer", "Computer Technician", "Operator", "Admin");
-                roleComboBox.setValue("Customer");
+                roleComboBox.setPromptText("Select New Role");
 
                 hb = new HBox(10);
                 hb.setAlignment(Pos.CENTER_LEFT);
@@ -102,9 +112,9 @@ public class ChangeRolePage {
                 back = new Button("Back");
                 back.setFont(Font.font("Arial", FontWeight.BOLD, 16));
 
-                labelsVBox = new VBox(10,  back, title, userIDLabel, usernameLabel, userPasswordLabel, userAgeLabel, userRoleLabel, hb, button);
+                labelsVBox = new VBox(back, title, userIDLabel, usernameLabel, userPasswordLabel, userAgeLabel, userRoleLabel, hb, button);
                 labelsVBox.setAlignment(Pos.CENTER_LEFT);
-                labelsVBox.setPadding(new Insets(15, 12, 15, 12));
+                labelsVBox.setPadding(new Insets(45, 12, 15, 12));
 
                 scene = new Scene(new VBox(20, labelsVBox), 800, 600);
         }

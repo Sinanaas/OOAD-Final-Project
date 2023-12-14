@@ -13,6 +13,8 @@ import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.PC;
 
+import java.util.List;
+
 public class PCManagementPage {
         private static PCManagementPage pcManagementPage;
         private Scene scene;
@@ -47,6 +49,7 @@ public class PCManagementPage {
                         adminPage.show();
                 });
 
+                // pada add PC,condition akan otomatis Usable, karena PC baru...
                 addPC.setOnAction(e -> {
                         String pcID = pcIDField.getText();
                         PCController.addNewPC(pcID);
@@ -58,18 +61,19 @@ public class PCManagementPage {
                 updatePC.setOnAction(e -> {
                         String pcID = pcIDField.getText();
                         String pcCondition = pcConditionField.getValue();
+                        String pcSelectedID = ((PC) pcTable.getSelectionModel().getSelectedItem()).getPCID();
+                        String selectedPCCondition = ((PC) pcTable.getSelectionModel().getSelectedItem()).getPCCondition();
 
-                        if (PCBookController.getPCBookedDetail(pcID) == null) {
+                        if (PCBookController.getPCBookedDetail(pcID) != null) {
                                 Alert alert = new Alert(Alert.AlertType.ERROR);
                                 alert.setTitle("Error");
                                 alert.setHeaderText("Error");
                                 alert.setContentText("PC is booked");
                                 alert.showAndWait();
                                 return;
-                        } else {
-                                PCController.updatePCCondition(pcID, pcCondition);
                         }
 
+                        PCController.updatePCCondition(pcID, pcCondition);
                         _repaint();
                         pcIDField.clear();
                         pcConditionField.setValue(null);
@@ -112,6 +116,7 @@ public class PCManagementPage {
 
                 pcConditionField = new ComboBox<>();
                 pcConditionField.getItems().addAll("Usable", "Maintenance", "Broken");
+                pcConditionField.setPromptText("PC Condition");
 
                 addPC = new Button("Add PC");
                 updatePC = new Button("Update PC");

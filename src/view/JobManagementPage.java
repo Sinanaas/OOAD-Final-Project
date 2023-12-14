@@ -23,9 +23,9 @@ public class JobManagementPage {
         private static JobManagementPage jobManagementPage;
         private Scene scene;
         private ScrollPane scrollPane;
-        private Label title, pcDetailsLabel;
+        private Label title, pcDetailsLabel, secondLabel;
         private VBox vb;
-        private HBox hb, tableHb;
+        private HBox hb, tableHb, secondHb;
         private ComboBox<String> mergedCombo, technicianCombo, jobCombo, jobStatusCombo;
         private TextField jobIDField,  userIDField, pcIDField;
         private TableView jobTable;
@@ -84,7 +84,16 @@ public class JobManagementPage {
                 updateJobStatus.setOnAction(e -> {
                         String selectedJobID = jobIDField.getText();
                         String selectedJobStatus = jobStatusCombo.getValue();
-                        System.out.println(selectedJobID + " | " + selectedJobStatus);
+//                        System.out.println(selectedJobID + " | " + selectedJobStatus);
+                        // ini aku taro luar soalnya kalo masukin ke masing-masing controller bakal ribet
+                        if (selectedJobID == null || selectedJobStatus == null) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("Error");
+                                alert.setContentText("Please select a job and a job status");
+                                alert.showAndWait();
+                                return;
+                        }
                         JobController.updateJobStatus(selectedJobID, selectedJobStatus);
                         PCController.updatePCCondition(pcIDField.getText(), "Usable");
                         _repaint();
@@ -138,6 +147,7 @@ public class JobManagementPage {
         private void initialize() {
                 title = new Label("Job Management");
                 Font font = Font.font("Arial", FontWeight.BOLD, 30);
+                Font font2 = Font.font("Arial", FontWeight.SEMI_BOLD, 15);
                 title.setFont(font);
 
                 updateJobStatus = new Button("Update Job Status");
@@ -146,6 +156,7 @@ public class JobManagementPage {
                 pcIDField = new TextField();
                 jobStatusCombo = new ComboBox<>();
                 jobStatusCombo.getItems().addAll("Complete", "UnComplete");
+                jobStatusCombo.setPromptText("Job Status");
                 tableHb = new HBox();
                 tableHb.getChildren().addAll(jobIDField, userIDField, pcIDField, jobStatusCombo, updateJobStatus);
 
@@ -210,6 +221,7 @@ public class JobManagementPage {
                         }
                 }
 
+
                 // technician combo
                 List<User> technicianList = UserController.getAllUserData();
 
@@ -220,24 +232,45 @@ public class JobManagementPage {
                 }
                 // Initialize the label
 
+                pcDetailsLabel = new Label();
                 jobCombo.getItems().addAll("Complete", "UnComplete");
 
                 mergedCombo.getItems().addAll(finalReportedPC);
+                if (mergedCombo.getItems().size() > 0) {
+                        mergedCombo.setValue(mergedCombo.getItems().get(0));
+                        updateDetailsLabel(mergedCombo.getItems().get(0));
+                } else {
+                        mergedCombo.setPromptText("No PC available");
+                        mergedCombo.setDisable(true);
+                }
 
-                hb.getChildren().addAll(mergedCombo);
+                if (technicianCombo.getItems().size() > 0) {
+                        technicianCombo.setValue(technicianCombo.getItems().get(0));
+                } else {
+                        technicianCombo.setPromptText("No technician available");
+                        technicianCombo.setDisable(true);
+                }
+
+                // second
+                secondLabel = new Label("Assign Technician to a job");
+                secondLabel.setFont(font2);
+                secondHb = new HBox();
+                secondHb.setSpacing(10);
+                secondHb.getChildren().addAll(mergedCombo, technicianCombo, assignButton);
+
+//                hb.getChildren().addAll(mergedCombo);
                 tableHb.setSpacing(10);
 //                vb.getChildren().addAll(title, hb, technicianCombo, jobCombo, assignButton);
                 back = new Button("Back");
                 back.setFont(Font.font("Arial", FontWeight.BOLD, 16));
 
-                vb.getChildren().addAll(back, title, jobTable, tableHb, hb, technicianCombo, assignButton);
-                pcDetailsLabel = new Label();
+                vb.getChildren().addAll(back, title, jobTable, tableHb, secondLabel, secondHb);
                 vb.getChildren().add(pcDetailsLabel);
                 vb.setSpacing(10);
                 vb.setPadding(new Insets(15, 12, 15, 12));
                 scrollPane = new ScrollPane(vb);
                 scrollPane.setFitToHeight(true);
                 scrollPane.setFitToWidth(true);
-                scene = new Scene(scrollPane, 800, 1000);
+                scene = new Scene(scrollPane, 800, 800);
         }
 }

@@ -51,7 +51,7 @@ public class ViewAllReportPage {
                 reportNoteColumn = new TableColumn<>("Report Note");
                 reportNoteColumn.setMinWidth(155);
                 reportDateColumn = new TableColumn<>("Report Date");
-                reportDateColumn.setMinWidth(155);
+                reportDateColumn.setMinWidth(154);
 
                 reportIdColumn.setCellValueFactory(new PropertyValueFactory<>("ReportID"));
                 userRoleColumn.setCellValueFactory(new PropertyValueFactory<>("UserRole"));

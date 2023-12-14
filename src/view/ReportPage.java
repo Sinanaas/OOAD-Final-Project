@@ -42,15 +42,20 @@ public class ReportPage {
         private void initialize() {
                 title = new Label("Report PC");
                 title.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-                pcIDLabel = new Label("PC ID");
+                pcIDLabel = new Label("PC ID:");
                 pcComboBox = new ComboBox<>();
                 reportNoteLabel = new Label("Report Note");
-                reportNoteTextArea = new TextArea();
                 reportButton = new Button("Report");
+                reportNoteTextArea = new TextArea();
+                reportNoteTextArea.setPromptText("Write your report here...");
+
 
                 ObservableList<PC> availablePCs = PCController.getAllPCData();
                 for (PC pc : availablePCs) {
                         pcComboBox.getItems().add(pc.getPCID());
+                }
+                if (availablePCs.size() > 0) {
+                        pcComboBox.setValue(availablePCs.get(0).getPCID());
                 }
                 back = new Button("Back");
                 back.setFont(Font.font("Arial", FontWeight.BOLD, 16));
@@ -65,9 +70,7 @@ public class ReportPage {
 
         private void addEventListener() {
                 reportButton.setOnAction(event -> {
-
                         PC selectedPC = PCController.getPCDetail(pcComboBox.getValue());
-
                         String pcID = selectedPC != null ? selectedPC.getPCID() : "";
                         String reportNote = reportNoteTextArea.getText();
                         User user = UserController.getAllUserData()

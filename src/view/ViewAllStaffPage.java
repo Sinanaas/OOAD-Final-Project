@@ -83,16 +83,16 @@ public class ViewAllStaffPage {
                 TableColumn<User, String> userRoleColumn = new TableColumn<>("User Role");
                 TableColumn<User, Void> changeRoleColumn = new TableColumn<>("Change Role");
 
-                userIDColumn.setMinWidth(175);
+                userIDColumn.setMinWidth(200);
                 userIDColumn.setCellValueFactory(new PropertyValueFactory<>("UserID"));
 
-                usernameColumn.setMinWidth(175);
+                usernameColumn.setMinWidth(200);
                 usernameColumn.setCellValueFactory(new PropertyValueFactory<>("Username"));
 
-                userRoleColumn.setMinWidth(175);
+                userRoleColumn.setMinWidth(200);
                 userRoleColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getRoleName()));
 
-                changeRoleColumn.setMinWidth(149);
+                changeRoleColumn.setMinWidth(174);
 
 
                 Callback<TableColumn<User, Void>, TableCell<User, Void>> cellFactory = new Callback<>() {

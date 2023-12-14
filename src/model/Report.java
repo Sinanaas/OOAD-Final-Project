@@ -75,6 +75,13 @@ public class Report {
                 return reportList;
         }
 
+        // deleteReport(PCID)
+        public static void deleteReportByPCID(String PCID) {
+                Connect connect = Connect.getConnection();
+                String query = String.format("DELETE FROM Report WHERE PCID = '%s'", PCID);
+                connect.executeUpdate(query);
+        }
+
         // getter, setter, constructor
         public String getReportID() {
                 return ReportID;
