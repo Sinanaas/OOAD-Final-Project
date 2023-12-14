@@ -1,6 +1,7 @@
 package controller;
 
 import helper.Helper;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.User;
 
@@ -96,5 +97,14 @@ public class UserController {
 	// getAllUserData()
 	public static List<User> getAllUserData() {
 		return User.getAllUserData();
+	}
+
+	// changeUserRole(String userID, int newRole)
+	public static void changeUserRole(String userID, int newRole) {
+		User.changeUserRole(userID, newRole);
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Change Role");
+		alert.setHeaderText("Change Role Success");
+		alert.showAndWait();
 	}
 }

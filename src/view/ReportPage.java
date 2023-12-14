@@ -4,7 +4,6 @@ import controller.PCController;
 import controller.ReportController;
 import controller.UserController;
 import helper.UserSessionHelper;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,12 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.PC;
-import model.PCBook;
-import model.Report;
 import model.User;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class ReportPage {
         private static ReportPage reportPage;
@@ -82,8 +76,8 @@ public class ReportPage {
                                 }).findFirst().orElse(null);
 
                         System.out.println(user.toString());
-                        assert user != null;
-//                        ReportController.addNewReport(user.getUserRole(), pcID, reportNote);
+//                        assert user != null;
+                        ReportController.addNewReport(user.getUserRole(), pcID, reportNote);
 
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Report PC");

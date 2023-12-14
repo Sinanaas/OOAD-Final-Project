@@ -50,14 +50,19 @@ public class UserHomePage {
                 vb.setPadding(new Insets(15, 12, 15, 12));
                 vb.setSpacing(10);
                 vb.getChildren().add(label);
+
+                // table
                 TableColumn<PC, String> pcIDColumn = new TableColumn<>("ID");
                 TableColumn<PC, String> pcConditionColumn = new TableColumn<>("Condition");
                 TableColumn<PC, Void> bookPCColumn = new TableColumn<>("Book PC");
+
                 pcIDColumn.setMinWidth(300);
                 pcConditionColumn.setMinWidth(300);
-                bookPCColumn.setMinWidth(200);
+
                 pcIDColumn.setCellValueFactory(new PropertyValueFactory<>("PCID"));
                 pcConditionColumn.setCellValueFactory(new PropertyValueFactory<>("PCCondition"));
+
+                bookPCColumn.setMinWidth(174);
 
                 Callback<TableColumn<PC, Void>, TableCell<PC, Void>> cellFactory = new Callback<>() {
                         @Override

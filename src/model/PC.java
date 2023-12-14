@@ -62,6 +62,7 @@ public class PC {
                 String query = String.format("UPDATE PC SET PCCondition = '%s' WHERE PCID = '%s'", PCCondition, PCID);
                 connect.executeUpdate(query);
         }
+
         // DeletePC(PCID)
         public static void deletePC(String PCID) {
                 Connect connect = Connect.getConnection();
@@ -72,7 +73,7 @@ public class PC {
         // AddNewPC(PCID)
         public static void addNewPC(String PCID) {
                 Connect connect = Connect.getConnection();
-                String query = String.format("INSERT INTO PC VALUES('%s', 'Available')", PCID);
+                String query = String.format("INSERT INTO PC VALUES('%s', 'Usable')", PCID);
                 connect.executeUpdate(query);
         }
 

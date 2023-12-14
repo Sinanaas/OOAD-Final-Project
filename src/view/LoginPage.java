@@ -18,11 +18,11 @@ import helper.UserSessionHelper;
 
 public class LoginPage {
 	private static LoginPage loginPage;
-	
+
 	public static LoginPage getInstance() {
 		return loginPage = loginPage == null ? new LoginPage() : loginPage;
 	}
-	
+
 	private LoginPage() {
 		initialize();
 		addEventListener();
@@ -64,11 +64,25 @@ public class LoginPage {
 			String username = usernameInput.getText();
 			String password = passwordInput.getText();
 			User user = UserController.getUserData(username, password);
-			if (user != null) {
+			if (user == null) {
+				return;
+			}
+			UserSessionHelper userSession = UserSessionHelper.getInstance();
+			userSession.setLoggedInUserId(user.getUserID());
+
+			System.out.println(user.getUserRole());
+			if (user.getUserRole() == 0) {
 				UserHomePage userHomePage = UserHomePage.getInstance();
-				UserSessionHelper userSession = UserSessionHelper.getInstance();
-				userSession.setLoggedInUserId(user.getUserID());
 				userHomePage.show();
+			} else if (user.getUserRole() == 1) {
+				TechnicianHomePage techinicianHomePage = TechnicianHomePage.getInstance();
+				techinicianHomePage.show();
+			} else if (user.getUserRole() == 2) {
+				OperatorHomePage operatorHomePage = OperatorHomePage.getInstance();
+				operatorHomePage.show();
+			} else if (user.getUserRole() == 3) {
+				AdminHomePage adminHomePage = AdminHomePage.getInstance();
+				adminHomePage.show();
 			}
 		});
 

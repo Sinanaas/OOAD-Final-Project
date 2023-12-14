@@ -1,11 +1,11 @@
 package model;
 
 import database.Connect;
-import helper.UserSessionHelper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +43,8 @@ public class Report {
                 String reportID = generateID();
                 LocalDateTime now = LocalDateTime.now();
                 String reportDate = now.toString();
+                System.out.println(reportDate + " | " + reportID + " | " + userRole + " | " + pcID + " | " + reportNote);
+
 
                 Connect connect = Connect.getConnection();
                 String query = String.format("INSERT INTO Report VALUES('%s', '%d', '%s', '%s', '%s')", reportID, userRole, pcID, reportNote, reportDate);
@@ -54,7 +56,7 @@ public class Report {
                 Connect connect = Connect.getConnection();
                 String query = "SELECT * FROM Report";
                 ResultSet rs = connect.executeQuery(query);
-                List<Report> reportList = null;
+                List<Report> reportList = new ArrayList<>();
                 try {
                         while (rs.next()) {
                                 String reportID = rs.getString("ReportID");
@@ -69,6 +71,7 @@ public class Report {
                 } catch (SQLException e) {
                         e.printStackTrace();
                 }
+
                 return reportList;
         }
 
@@ -114,10 +117,10 @@ public class Report {
         }
 
         public Report(String reportID, Integer userRole, String PCID, String reportNote, Date reportDate) {
-                ReportID = reportID;
-                UserRole = userRole;
+                this.ReportID = reportID;
+                this.UserRole = userRole;
                 this.PCID = PCID;
-                ReportNote = reportNote;
-                ReportDate = reportDate;
+                this.ReportNote = reportNote;
+                this.ReportDate = reportDate;
         }
 }
