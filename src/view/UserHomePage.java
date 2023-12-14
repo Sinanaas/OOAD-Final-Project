@@ -2,12 +2,15 @@ package view;
 
 import controller.PCBookController;
 import controller.PCController;
+import helper.UserSessionHelper;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -19,7 +22,9 @@ import model.PCBook;
 public class UserHomePage {
         private static UserHomePage userHomePage;
         private Scene scene;
-        private Button reportButton;
+        private HBox hb;
+        private BorderPane bp;
+        private Button reportButton, logoutButton;
         public static UserHomePage getInstance() {
                 return userHomePage = userHomePage == null ? new UserHomePage() : userHomePage;
         }
@@ -33,6 +38,12 @@ public class UserHomePage {
                 reportButton.setOnAction((ActionEvent event) -> {
                         ReportPage reportPage = ReportPage.getInstance();
                         reportPage.show();
+                });
+
+                logoutButton.setOnAction((ActionEvent event) -> {
+                        LoginPage loginPage = LoginPage.getInstance();
+                        UserSessionHelper.getInstance().clear();
+                        loginPage.show();
                 });
         }
 
@@ -49,7 +60,12 @@ public class UserHomePage {
                 vb.setAlignment(Pos.CENTER_LEFT); // Set alignment to center
                 vb.setPadding(new Insets(15, 12, 15, 12));
                 vb.setSpacing(10);
-                vb.getChildren().add(label);
+
+                // logout
+                logoutButton = new Button("Logout");
+                bp = new BorderPane();
+                bp.setLeft(label);
+                bp.setRight(logoutButton);
 
                 // table
                 TableColumn<PC, String> pcIDColumn = new TableColumn<>("ID");
@@ -126,7 +142,7 @@ public class UserHomePage {
                 pcTable.getItems().addAll(PCController.getAllPCData());
                 pcTable.setPrefHeight(400);
                 pcTable.setPrefWidth(800);
-                vb.getChildren().addAll(pcTable, reportButton);
+                vb.getChildren().addAll(bp, pcTable, reportButton);
                 scene = new Scene(vb, 800, 600);
         }
 }

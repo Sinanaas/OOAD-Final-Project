@@ -23,7 +23,7 @@ public class PCManagementPage {
         private ComboBox<String> pcConditionField;
         private VBox vb;
         private HBox hb;
-        private Button addPC, updatePC, deletePC;
+        private Button addPC, updatePC, deletePC, back;
 
         public static PCManagementPage getInstance() {
                 return pcManagementPage = pcManagementPage == null ? new PCManagementPage() : pcManagementPage;
@@ -42,6 +42,11 @@ public class PCManagementPage {
         }
 
         private void addEventListener() {
+                back.setOnAction(e -> {
+                        AdminHomePage adminPage = AdminHomePage.getInstance();
+                        adminPage.show();
+                });
+
                 addPC.setOnAction(e -> {
                         String pcID = pcIDField.getText();
                         PCController.addNewPC(pcID);
@@ -129,8 +134,12 @@ public class PCManagementPage {
                 pcTable.getItems().addAll(
                         PCController.getAllPCData()
                 );
+
+                back = new Button("Back");
+                back.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+
                 vb = new VBox();
-                vb.getChildren().addAll(title, pcTable, hb);
+                vb.getChildren().addAll(back, title, pcTable, hb);
                 vb.setSpacing(10);
                 vb.setPadding(new Insets(15, 12, 15, 12));
 

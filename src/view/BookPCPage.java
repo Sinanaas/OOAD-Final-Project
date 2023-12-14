@@ -29,7 +29,7 @@ public class BookPCPage {
         private Spinner<Integer> hourSpinner;
         private Spinner<Integer> minuteSpinner;
         private HBox dateHb;
-        private Button bookButton;
+        private Button bookButton, back;
 
         public static BookPCPage getInstance(String pcID) {
                 return bookPCPage = bookPCPage == null ? new BookPCPage(pcID) : bookPCPage;
@@ -69,11 +69,14 @@ public class BookPCPage {
                 bookButton = new Button("Book PC");
                 bookButton.setFont(Font.font("Arial", FontWeight.BOLD, 16));
 
+                back = new Button("Back");
+                back.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+
                 dateHb = new HBox(10);
                 dateHb.getChildren().addAll(label, datePicker);
                 vb = new VBox();
                 vb.setSpacing(10);
-                vb.getChildren().addAll(title, bookId, bookIdInput, pcIDLabel, pcIDInput, dateHb, bookButton);
+                vb.getChildren().addAll(back, title, bookId, bookIdInput, pcIDLabel, pcIDInput, dateHb, bookButton);
                 vb.setAlignment(Pos.CENTER_LEFT);
                 vb.setPadding(new Insets(50));
                 scene = new Scene(vb, 800, 600);
@@ -90,6 +93,11 @@ public class BookPCPage {
                         alert.setHeaderText("Book PC Success");
                         alert.setContentText("Book PC Success");
                         alert.showAndWait();
+                        UserHomePage userHomePage = UserHomePage.getInstance();
+                        userHomePage.show();
+                });
+
+                back.setOnMouseClicked(e -> {
                         UserHomePage userHomePage = UserHomePage.getInstance();
                         userHomePage.show();
                 });

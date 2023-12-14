@@ -21,4 +21,8 @@ public class UserSessionHelper {
         public void setLoggedInUserId(String loggedInUserId) {
                 this.loggedInUserId = loggedInUserId;
         }
+
+        public void clear() {
+                this.loggedInUserId = null;
+        }
 }

@@ -23,7 +23,7 @@ public class ChangeRolePage {
         private VBox labelsVBox;
         private HBox hb;
         private ComboBox<String> roleComboBox;
-        private Button button;
+        private Button button, back;
         public static ChangeRolePage getInstance(User user) {
                 return changeRolePage = changeRolePage == null ? new ChangeRolePage(user) : changeRolePage;
         }
@@ -47,6 +47,11 @@ public class ChangeRolePage {
                                 UserController.changeUserRole(user.getUserID(), 3);
                         }
 
+                        ViewAllStaffPage viewAllStaffPage = ViewAllStaffPage.getInstance();
+                        viewAllStaffPage.show();
+                });
+
+                back.setOnAction(e -> {
                         ViewAllStaffPage viewAllStaffPage = ViewAllStaffPage.getInstance();
                         viewAllStaffPage.show();
                 });
@@ -94,7 +99,10 @@ public class ChangeRolePage {
 
                 button = new Button("Change Role");
 
-                labelsVBox = new VBox(10, title, userIDLabel, usernameLabel, userPasswordLabel, userAgeLabel, userRoleLabel, hb, button);
+                back = new Button("Back");
+                back.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+
+                labelsVBox = new VBox(10,  back, title, userIDLabel, usernameLabel, userPasswordLabel, userAgeLabel, userRoleLabel, hb, button);
                 labelsVBox.setAlignment(Pos.CENTER_LEFT);
                 labelsVBox.setPadding(new Insets(15, 12, 15, 12));
 

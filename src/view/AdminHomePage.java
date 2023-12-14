@@ -1,5 +1,6 @@
 package view;
 
+import helper.UserSessionHelper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,7 +17,7 @@ public class AdminHomePage {
         private static AdminHomePage adminHomePage;
         private Scene scene;
         private Label title, text;
-        private Button viewAllStaff, pcManagement, jobManagement, transactionHistory, viewAllReport;
+        private Button viewAllStaff, pcManagement, jobManagement, transactionHistory, viewAllReport, logout;
         VBox vb;
         HBox hb;
         public static AdminHomePage getInstance() {
@@ -29,6 +30,12 @@ public class AdminHomePage {
         }
 
         private void addEventListener() {
+                logout.setOnAction(e -> {
+                        LoginPage loginPage = LoginPage.getInstance();
+                        UserSessionHelper.getInstance().clear();
+                        loginPage.show();
+                });
+
                 viewAllStaff.setOnAction(e -> {
                         ViewAllStaffPage viewAllStaffPage = ViewAllStaffPage.getInstance();
                         viewAllStaffPage.show();
@@ -82,13 +89,15 @@ public class AdminHomePage {
                 hb.setSpacing(10);
                 hb.setAlignment(Pos.CENTER);
 
+                logout = new Button("Logout");
+
                 vb = new VBox();
                 vb.setSpacing(10);
                 vb.setAlignment(Pos.CENTER);
                 vb.setPadding(new Insets(15, 12, 15, 12));
 
                 hb.getChildren().addAll(viewAllStaff, pcManagement, jobManagement, transactionHistory, viewAllReport);
-                vb.getChildren().addAll(title, text, hb);
+                vb.getChildren().addAll(title, text, hb, logout);
 
                 scene = new Scene(vb, 800, 600);
         }

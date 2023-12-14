@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -19,13 +20,14 @@ import java.util.List;
 public class TechnicianHomePage {
         private static TechnicianHomePage technicianHomePage;
         private Scene scene;
+        private BorderPane bp;
         private HBox tableHb;
         private Label title;
         private TableView jobTable;
         private VBox vb;
         private ComboBox<String> jobStatusCombo;
         private TextField jobIDField,  userIDField, pcIDField;
-        private Button completeJobBtn;
+        private Button completeJobBtn, logout;
         public static TechnicianHomePage getInstance() {
                 return technicianHomePage = technicianHomePage == null ? new TechnicianHomePage() : technicianHomePage;
         }
@@ -39,6 +41,12 @@ public class TechnicianHomePage {
                 mainStage.getStage().setScene(scene);
         }
         private void addEventListener() {
+                logout.setOnAction(e -> {
+                        LoginPage loginPage = LoginPage.getInstance();
+                        UserSessionHelper.getInstance().clear();
+                        loginPage.show();
+                });
+
                 completeJobBtn.setOnAction(e -> {
                         String jobID = jobIDField.getText();
                         String userID = userIDField.getText();
@@ -136,9 +144,13 @@ public class TechnicianHomePage {
                         }
                 }
                 vb = new VBox();
+                bp = new BorderPane();
+                logout = new Button("Logout");
+                bp.setLeft(title);
+                bp.setRight(logout);
                 vb.setSpacing(10);
                 vb.setPadding(new Insets(15, 12, 15, 12));
-                vb.getChildren().addAll(title, jobTable, tableHb);
+                vb.getChildren().addAll(bp, jobTable, tableHb);
                 vb.setAlignment(Pos.CENTER);
                 scene = new Scene(vb, 800, 600);
         }

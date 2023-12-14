@@ -22,7 +22,7 @@ public class ViewAllStaffPage {
         private Scene scene;
         private Label title;
         private TableView<User> userTable;
-
+        private Button backButton;
         VBox vb;
         HBox hb;
 
@@ -59,12 +59,19 @@ public class ViewAllStaffPage {
         }
 
         private void addEventListener() {
+                backButton.setOnAction(event -> {
+                        AdminHomePage adminPage = AdminHomePage.getInstance();
+                        adminPage.show();
+                });
         }
 
         private void initialize() {
                 title = new Label("View All Staff Page");
                 Font font = Font.font("Arial", FontWeight.BOLD, 30);
                 title.setFont(font);
+
+                backButton = new Button("Back");
+                backButton.setFont(Font.font("Arial", FontWeight.BOLD, 16));
 
                 vb = new VBox();
                 vb.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
@@ -127,7 +134,7 @@ public class ViewAllStaffPage {
                 );
                 userTable.setPrefHeight(400);
                 userTable.setPrefWidth(800);
-                vb.getChildren().addAll(title, userTable);
+                vb.getChildren().addAll(backButton, title, userTable);
                 scene = new Scene(vb, 800, 600);
         }
 }

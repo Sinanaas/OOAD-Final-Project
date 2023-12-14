@@ -2,11 +2,13 @@ package view;
 
 import controller.ReportController;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.Report;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 
 public class ViewAllReportPage {
         private static ViewAllReportPage viewAllReport;
+        private Button back;
         private Scene scene;
         private Label title;
         private VBox vb;
@@ -28,6 +31,10 @@ public class ViewAllReportPage {
                 addEventListener();
         }
         private void addEventListener() {
+                back.setOnAction(e -> {
+                        AdminHomePage adminPage = AdminHomePage.getInstance();
+                        adminPage.show();
+                });
         }
         private void initialize() {
                 title = new Label("View All Report Page");
@@ -60,10 +67,11 @@ public class ViewAllReportPage {
                 if (reportList.size() > 0) {
                         reportTable.getItems().addAll(reportList);
                 }
-
+                back = new Button("Back");
+                back.setFont(Font.font("Arial", FontWeight.BOLD, 16));
 
                 vb = new VBox();
-                vb.getChildren().addAll(title, reportTable);
+                vb.getChildren().addAll(back, title, reportTable);
                 vb.setSpacing(10);
                 vb.setPadding(new javafx.geometry.Insets(15, 12, 15, 12));
                 vb.setAlignment(javafx.geometry.Pos.CENTER_LEFT);

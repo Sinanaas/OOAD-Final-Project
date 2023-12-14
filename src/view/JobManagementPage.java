@@ -29,7 +29,7 @@ public class JobManagementPage {
         private ComboBox<String> mergedCombo, technicianCombo, jobCombo, jobStatusCombo;
         private TextField jobIDField,  userIDField, pcIDField;
         private TableView jobTable;
-        private Button assignButton, updateJobStatus;
+        private Button assignButton, updateJobStatus, back;
         public static JobManagementPage getInstance() {
                 return jobManagementPage = (jobManagementPage == null) ? new JobManagementPage() : jobManagementPage;
         }
@@ -52,6 +52,11 @@ public class JobManagementPage {
         }
 
         private void addEventListener() {
+                back.setOnAction(e -> {
+                        AdminHomePage adminPage = AdminHomePage.getInstance();
+                        adminPage.show();
+                });
+
                 mergedCombo.setOnAction(e -> {
                         String selectedPCID = mergedCombo.getValue();
                         updateDetailsLabel(selectedPCID);
@@ -222,7 +227,10 @@ public class JobManagementPage {
                 hb.getChildren().addAll(mergedCombo);
                 tableHb.setSpacing(10);
 //                vb.getChildren().addAll(title, hb, technicianCombo, jobCombo, assignButton);
-                vb.getChildren().addAll(title, jobTable, tableHb, hb, technicianCombo, assignButton);
+                back = new Button("Back");
+                back.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+
+                vb.getChildren().addAll(back, title, jobTable, tableHb, hb, technicianCombo, assignButton);
                 pcDetailsLabel = new Label();
                 vb.getChildren().add(pcDetailsLabel);
                 vb.setSpacing(10);

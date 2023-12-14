@@ -23,7 +23,7 @@ public class ReportPage {
         private ComboBox<String> pcComboBox;
         private TextArea reportNoteTextArea;
         private VBox vb;
-        private Button reportButton;
+        private Button reportButton, back;
 
         public static ReportPage getInstance() {
                 return reportPage = reportPage == null ? new ReportPage() : reportPage;
@@ -52,22 +52,24 @@ public class ReportPage {
                 for (PC pc : availablePCs) {
                         pcComboBox.getItems().add(pc.getPCID());
                 }
+                back = new Button("Back");
+                back.setFont(Font.font("Arial", FontWeight.BOLD, 16));
 
                 vb = new VBox();
                 vb.setSpacing(10);
                 vb.setPadding(new Insets(15, 12, 15, 12));
                 vb.setAlignment(Pos.CENTER_LEFT);
-                vb.getChildren().addAll(title, pcIDLabel, pcComboBox, reportNoteLabel, reportNoteTextArea, reportButton);
+                vb.getChildren().addAll(back, title, pcIDLabel, pcComboBox, reportNoteLabel, reportNoteTextArea, reportButton);
                 scene = new Scene(vb, 800, 600);
         }
 
         private void addEventListener() {
                 reportButton.setOnAction(event -> {
+
                         PC selectedPC = PCController.getPCDetail(pcComboBox.getValue());
 
                         String pcID = selectedPC != null ? selectedPC.getPCID() : "";
                         String reportNote = reportNoteTextArea.getText();
-//                        User user = UserController.getAllUserData().stream().filter(u -> u.getUserID().equals(UserSessionHelper.getInstance().getLoggedInUserId())).findFirst().orElse(null);
                         User user = UserController.getAllUserData()
                                 .stream()
                                 .filter(u -> {
@@ -75,8 +77,6 @@ public class ReportPage {
                                         return loggedInUserId != null && loggedInUserId.equals(u.getUserID());
                                 }).findFirst().orElse(null);
 
-                        System.out.println(user.toString());
-//                        assert user != null;
                         ReportController.addNewReport(user.getUserRole(), pcID, reportNote);
 
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -84,6 +84,11 @@ public class ReportPage {
                         alert.setHeaderText("Report PC Success");
                         alert.setContentText("Report PC Success");
                         alert.showAndWait();
+                        UserHomePage userHomePage = UserHomePage.getInstance();
+                        userHomePage.show();
+                });
+
+                back.setOnAction(event -> {
                         UserHomePage userHomePage = UserHomePage.getInstance();
                         userHomePage.show();
                 });

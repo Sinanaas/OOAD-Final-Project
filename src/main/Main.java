@@ -18,9 +18,6 @@ public class Main extends Application {
 		LoginPage loginPage = LoginPage.getInstance();
 		loginPage.show();
 
-//		JobManagementPage jobManagementPage = JobManagementPage.getInstance();
-//		jobManagementPage.show();
-
 		mainStage.getStage().setTitle("session10OOAD");
 		mainStage.getStage().setResizable(false);
 		mainStage.getStage().show();

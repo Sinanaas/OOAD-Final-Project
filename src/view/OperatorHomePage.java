@@ -1,10 +1,13 @@
 package view;
 
 import controller.PCBookController;
+import helper.UserSessionHelper;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -18,12 +21,13 @@ public class OperatorHomePage {
                 return operatorHomePage = operatorHomePage == null ? new OperatorHomePage() : operatorHomePage;
         }
         private Label title;
+        private BorderPane bp;
         private HBox hb;
         private Scene scene;
         private VBox vb;
         private TableView pcBookTable;
         private TextField pcIDInput, userIDInput, bookedDateInput, pcBookIDInput;
-        private Button cancelBtn, finishBtn, reassignBtn;
+        private Button cancelBtn, finishBtn, reassignBtn, logout;
         public OperatorHomePage() {
                 initialize();
                 addEventListener();
@@ -38,6 +42,11 @@ public class OperatorHomePage {
                 pcBookIDInput.clear();
         }
         private void addEventListener() {
+                logout.setOnAction(e -> {
+                        LoginPage loginPage = LoginPage.getInstance();
+                        UserSessionHelper.getInstance().clear();
+                        loginPage.show();
+                });
                 cancelBtn.setOnAction(e -> {
                         PCBookController.deleteBookData(pcBookIDInput.getText());
                         _repaint();
@@ -116,11 +125,14 @@ public class OperatorHomePage {
                 pcIDCol.setCellValueFactory(new PropertyValueFactory<>("PCID"));
                 userIDCol.setCellValueFactory(new PropertyValueFactory<>("UserID"));
                 bookedDateCol.setCellValueFactory(new PropertyValueFactory<>("BookedDate"));
-
+                logout = new Button("Logout");
+                bp = new BorderPane();
+                bp.setLeft(title);
+                bp.setRight(logout);
 
                 pcBookTable.getColumns().addAll(bookIDCol, pcIDCol, userIDCol, bookedDateCol);
                 pcBookTable.getItems().addAll(PCBookController.getAllPCBookedData());
-                vb.getChildren().addAll(title, pcBookTable, hb);
+                vb.getChildren().addAll(bp, pcBookTable, hb);
                 vb.setPadding(new Insets(12, 15, 12, 15));
                 scene = new Scene(vb, 800, 600);
         }
