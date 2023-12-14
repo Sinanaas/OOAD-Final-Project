@@ -172,7 +172,6 @@ public class JobManagementPage {
                 jobTable.getColumns().addAll(jobIDCol, userIDCol, pcIDCol, jobStatusCol);
                 jobTable.getItems().addAll(JobController.getAllJobData());
 
-
                 vb = new VBox();
                 hb = new HBox();
                 assignButton = new Button("Assign");
