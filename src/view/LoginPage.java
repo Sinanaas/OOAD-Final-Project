@@ -78,8 +78,8 @@ public class LoginPage {
 				TechnicianHomePage techinicianHomePage = TechnicianHomePage.getInstance();
 				techinicianHomePage.show();
 			} else if (user.getUserRole() == 2) {
-//				OperatorHomePage operatorHomePage = OperatorHomePage.getInstance();
-//				operatorHomePage.show();
+				OperatorHomePage operatorHomePage = OperatorHomePage.getInstance();
+				operatorHomePage.show();
 			} else if (user.getUserRole() == 3) {
 				AdminHomePage adminHomePage = AdminHomePage.getInstance();
 				adminHomePage.show();

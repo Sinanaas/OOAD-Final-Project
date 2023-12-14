@@ -97,10 +97,13 @@ public class TechnicianHomePage {
                 completeJobBtn = new Button("Update Job Status");
                 jobIDField = new TextField();
                 jobIDField.setPromptText("Job ID");
+                jobIDField.editableProperty().set(false);
                 userIDField = new TextField();
                 userIDField.setPromptText("User ID");
+                userIDField.editableProperty().set(false);
                 pcIDField = new TextField();
                 pcIDField.setPromptText("PC ID");
+                pcIDField.editableProperty().set(false);
                 jobStatusCombo = new ComboBox<>();
                 jobStatusCombo.getItems().addAll("Complete", "UnComplete");
                 jobStatusCombo.setPromptText("Job Status");
