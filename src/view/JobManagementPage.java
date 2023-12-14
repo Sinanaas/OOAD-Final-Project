@@ -2,15 +2,16 @@ package view;
 
 import controller.*;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
+import model.Job;
 import model.PC;
 import model.Report;
 import model.User;
@@ -21,11 +22,14 @@ import java.util.List;
 public class JobManagementPage {
         private static JobManagementPage jobManagementPage;
         private Scene scene;
+        private ScrollPane scrollPane;
         private Label title, pcDetailsLabel;
         private VBox vb;
-        private HBox hb;
-        private ComboBox<String> mergedCombo, technicianCombo, jobCombo;
-        private Button assignButton;
+        private HBox hb, tableHb;
+        private ComboBox<String> mergedCombo, technicianCombo, jobCombo, jobStatusCombo;
+        private TextField jobIDField,  userIDField, pcIDField;
+        private TableView jobTable;
+        private Button assignButton, updateJobStatus;
         public static JobManagementPage getInstance() {
                 return jobManagementPage = (jobManagementPage == null) ? new JobManagementPage() : jobManagementPage;
         }
@@ -33,6 +37,13 @@ public class JobManagementPage {
         public JobManagementPage() {
                 initialize();
                 addEventListener();
+        }
+
+        public void _repaint() {
+                jobTable.getItems().clear();
+                jobTable.getItems().addAll(
+                        JobController.getAllJobData()
+                );
         }
 
         public void show() {
@@ -63,6 +74,34 @@ public class JobManagementPage {
 //                                PCBookController.assignUserToNewPC(selectedTechnicianID, selectedPCID);
 //                        }
                         JobController.addNewJob(selectedTechnicianID, selectedPCID);
+                });
+
+                updateJobStatus.setOnAction(e -> {
+                        String selectedJobID = jobIDField.getText();
+                        String selectedJobStatus = jobStatusCombo.getValue();
+                        System.out.println(selectedJobID + " | " + selectedJobStatus);
+                        JobController.updateJobStatus(selectedJobID, selectedJobStatus);
+                        PCController.updatePCCondition(pcIDField.getText(), "Usable");
+                        _repaint();
+                        jobIDField.clear();
+                        userIDField.clear();
+                        pcIDField.clear();
+                        jobStatusCombo.setValue(null);
+                });
+
+                jobTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                        if (newSelection != null) {
+                                Job job = (Job) newSelection;
+                                jobIDField.setText(job.getJobID());
+                                userIDField.setText(job.getUserID());
+                                pcIDField.setText(job.getPCID());
+                                jobStatusCombo.setValue(job.getJobStatus());
+                        } else {
+                                jobIDField.clear();
+                                userIDField.clear();
+                                pcIDField.clear();
+                                jobStatusCombo.setValue(null);
+                        }
                 });
         }
 
@@ -95,6 +134,44 @@ public class JobManagementPage {
                 title = new Label("Job Management");
                 Font font = Font.font("Arial", FontWeight.BOLD, 30);
                 title.setFont(font);
+
+                updateJobStatus = new Button("Update Job Status");
+                jobIDField = new TextField();
+                userIDField = new TextField();
+                pcIDField = new TextField();
+                jobStatusCombo = new ComboBox<>();
+                jobStatusCombo.getItems().addAll("Complete", "UnComplete");
+                tableHb = new HBox();
+                tableHb.getChildren().addAll(jobIDField, userIDField, pcIDField, jobStatusCombo, updateJobStatus);
+
+                // table
+                jobTable = new TableView();
+                TableColumn<Job, String> jobIDCol = new TableColumn<>("Job ID");
+                TableColumn<Job, String> userIDCol = new TableColumn<>("User ID");
+                TableColumn<Job, String> pcIDCol = new TableColumn<>("PC ID");
+                TableColumn<Job, String> jobStatusCol = new TableColumn<>("Job Status");
+
+                jobIDCol.setMinWidth(194);
+                userIDCol.setMinWidth(194);
+                pcIDCol.setMinWidth(194);
+                jobStatusCol.setMinWidth(196);
+
+                jobIDCol.setCellValueFactory(new PropertyValueFactory<>("JobID"));
+                userIDCol.setCellValueFactory(new PropertyValueFactory<>("UserID"));
+                pcIDCol.setCellValueFactory(new PropertyValueFactory<>("PCID"));
+                jobStatusCol.setCellValueFactory(new PropertyValueFactory<>("JobStatus"));
+
+                jobIDField.setPromptText("Job ID");
+                jobIDField.editableProperty().setValue(false);
+                userIDField.setPromptText("User ID");
+                userIDField.editableProperty().setValue(false);
+                pcIDField.setPromptText("PC ID");
+                pcIDField.editableProperty().setValue(false);
+
+
+                jobTable.getColumns().addAll(jobIDCol, userIDCol, pcIDCol, jobStatusCol);
+                jobTable.getItems().addAll(JobController.getAllJobData());
+
 
                 vb = new VBox();
                 hb = new HBox();
@@ -137,20 +214,23 @@ public class JobManagementPage {
                                 technicianCombo.getItems().add(technician.getUsername());
                         }
                 }
+                // Initialize the label
 
                 jobCombo.getItems().addAll("Complete", "UnComplete");
 
                 mergedCombo.getItems().addAll(finalReportedPC);
 
                 hb.getChildren().addAll(mergedCombo);
+                tableHb.setSpacing(10);
 //                vb.getChildren().addAll(title, hb, technicianCombo, jobCombo, assignButton);
-                vb.getChildren().addAll(title, hb, technicianCombo, assignButton);
-                vb.setSpacing(10);
-                vb.setPadding(new javafx.geometry.Insets(10));
-                scene = new Scene(vb, 800, 600);
-
-                // Initialize the label
+                vb.getChildren().addAll(title, jobTable, tableHb, hb, technicianCombo, assignButton);
                 pcDetailsLabel = new Label();
                 vb.getChildren().add(pcDetailsLabel);
+                vb.setSpacing(10);
+                vb.setPadding(new Insets(15, 12, 15, 12));
+                scrollPane = new ScrollPane(vb);
+                scrollPane.setFitToHeight(true);
+                scrollPane.setFitToWidth(true);
+                scene = new Scene(scrollPane, 800, 1000);
         }
 }

@@ -43,6 +43,8 @@ public class Report {
                 String reportID = generateID();
                 LocalDateTime now = LocalDateTime.now();
                 String reportDate = now.toString();
+                System.out.println(reportDate + " | " + reportID + " | " + userRole + " | " + pcID + " | " + reportNote);
+
 
                 Connect connect = Connect.getConnection();
                 String query = String.format("INSERT INTO Report VALUES('%s', '%d', '%s', '%s', '%s')", reportID, userRole, pcID, reportNote, reportDate);

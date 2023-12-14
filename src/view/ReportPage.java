@@ -1,6 +1,7 @@
 package view;
 
 import controller.PCController;
+import controller.ReportController;
 import controller.UserController;
 import helper.UserSessionHelper;
 import javafx.collections.ObservableList;
@@ -75,8 +76,8 @@ public class ReportPage {
                                 }).findFirst().orElse(null);
 
                         System.out.println(user.toString());
-                        assert user != null;
-//                        ReportController.addNewReport(user.getUserRole(), pcID, reportNote);
+//                        assert user != null;
+                        ReportController.addNewReport(user.getUserRole(), pcID, reportNote);
 
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Report PC");

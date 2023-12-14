@@ -99,11 +99,6 @@ public class JobController {
                         alert.setHeaderText("Error");
                         alert.setContentText("Please select job and status");
                         alert.showAndWait();
-                } else if (!jobStatus.equals("UnComplete") || !jobStatus.equals("Complete")) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Error");
-                        alert.setContentText("Please select appropriate job status");
-                        alert.showAndWait();
                 } else {
                         Job.updateJobStatus(jobID, jobStatus);
                         Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
