@@ -30,6 +30,11 @@ public class ViewAllReportPage {
                 initialize();
                 addEventListener();
         }
+
+        public void _repaint() {
+                reportTable.getItems().clear();
+                reportTable.getItems().addAll(ReportController.getAllReportData());
+        }
         private void addEventListener() {
                 back.setOnAction(e -> {
                         AdminHomePage adminPage = AdminHomePage.getInstance();
@@ -80,5 +85,6 @@ public class ViewAllReportPage {
         public void show() {
                 MainStage mainStage = MainStage.getInstance();
                 mainStage.getStage().setScene(scene);
+                _repaint();
         }
 }

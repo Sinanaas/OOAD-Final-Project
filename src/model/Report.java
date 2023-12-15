@@ -16,7 +16,6 @@ public class Report {
         private String ReportNote;
         private Date ReportDate;
 
-        // addNewReport(UserRole, PCID, ReportNote)
         public static String generateID() {
                 Connect connect = Connect.getConnection();
                 String query = "SELECT * FROM Report ORDER BY ReportID DESC LIMIT 1";

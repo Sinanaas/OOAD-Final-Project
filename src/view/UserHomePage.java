@@ -25,6 +25,7 @@ public class UserHomePage {
         private HBox hb;
         private BorderPane bp;
         private Button reportButton, logoutButton;
+        private TableView pcTable;
         public static UserHomePage getInstance() {
                 return userHomePage = userHomePage == null ? new UserHomePage() : userHomePage;
         }
@@ -32,6 +33,11 @@ public class UserHomePage {
         private UserHomePage() {
                 initialize();
                 addEventListener();
+        }
+
+        public void _repaint() {
+                pcTable.getItems().clear();
+                pcTable.getItems().addAll(PCController.getAllPCData());
         }
 
         private void addEventListener() {
@@ -50,6 +56,7 @@ public class UserHomePage {
         public void show() {
                 MainStage mainStage = MainStage.getInstance();
                 mainStage.getStage().setScene(scene);
+                _repaint();
         }
 
         private void initialize() {
@@ -137,7 +144,7 @@ public class UserHomePage {
 
                 bookPCColumn.setCellFactory(cellFactory);
 
-                TableView<PC> pcTable = new TableView<>();
+                pcTable = new TableView<>();
                 pcTable.getColumns().addAll(pcIDColumn, pcConditionColumn, bookPCColumn);
                 pcTable.getItems().addAll(PCController.getAllPCData());
                 pcTable.setPrefHeight(400);

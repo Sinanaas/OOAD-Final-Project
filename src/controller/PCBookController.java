@@ -5,16 +5,48 @@ import model.Job;
 import model.PC;
 import model.PCBook;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PCBookController {
-        public static void addNewBook(String bookID, String pcID, String userID, Date date) {
+        public static boolean addNewBook(String bookID, String pcID, String userID, Date date) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+
+                LocalDate localDate = LocalDate.now();
+
                 if (bookID == null || pcID == null || userID == null || date == null) {
-                        throw new IllegalArgumentException("All arguments must not be null");
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Error");
+                        alert.setContentText("Please select user and PC");
+                        alert.showAndWait();
+                        return false;
                 }
+
+                // Convert java.sql.Date to java.util.Date
+                java.util.Date utilDate = new Date(date.getTime());
+
+                LocalDate bookLocalDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                if (bookLocalDate.isBefore(localDate)) {
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Error");
+                        alert.setContentText("Please select a valid date (after today)");
+                        alert.showAndWait();
+                        return false;
+                }
+
                 PCBook.addNewBook(bookID, pcID, userID, date);
+
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Book PC");
+                alert.setHeaderText("Book PC Success");
+                alert.setContentText("Book PC Success");
+                alert.showAndWait();
+                return true;
         }
 
         // gettPCBookedDetail(PCID)
@@ -30,7 +62,7 @@ public class PCBookController {
         }
 
         // assignUserToNewPC(String userID, String pcID)
-        public static void assignUserToNewPC(String userID, String pcID) {
+        public static boolean assignUserToNewPC(String userID, String pcID) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 Alert error = new Alert(Alert.AlertType.ERROR);
 
@@ -39,41 +71,37 @@ public class PCBookController {
                         error.setHeaderText("Error");
                         error.setContentText("Please select user and PC");
                         error.showAndWait();
+                        return false;
                 } else {
                         // Check if the selected PC is booked
-
-                        if (PCBookController.getPCBookedDetail(pcID) != null) {
+//                        if (PCBookController.getPCBookedDetail(pcID) != null) {
                                 List<PC> pcList = PCController.getAllPCData();
-                                List<PCBook> pcBookList = PCBookController.getAllPCBookedData();
-                                List<PC> usablePCList = new ArrayList<>();
-
+                                PC usablePC = null;
+                                // find usable pc
                                 for (PC pc : pcList) {
-                                        if (pc.getPCCondition().equals("Usable")) {
-                                                usablePCList.add(pc);
+                                        PC temp = PCBookController.getPCBookedDetail(pc.getPCID());
+                                        if (temp == null && pc.getPCCondition().equals("Usable") && !pc.getPCID().equals(pcID)) {
+//                                                System.out.println(temp.getPCID() + " ][" +  temp.getPCCondition());
+//                                                usablePC = temp;
+                                                PCBook.assignUserToNewPC(userID,pc.getPCID());
+                                                alert.setTitle("Success");
+                                                alert.setHeaderText("Success");
+                                                alert.setContentText("Successfully assigned a user to " + pc.getPCID());
+                                                alert.showAndWait();
+                                                return true;
                                         }
                                 }
 
-                                for (PC pc : usablePCList) {
-                                        for (PCBook pcBook : pcBookList) {
-                                                System.out.println("KEREN JUGA YA:" + pc.getPCID() + "  | " + pcID);
-                                                if (!pc.getPCID().equals(pcBook.getPCID())) {
-                                                        System.out.println("JALAN BOS:" + pc.getPCID() + "  | " + pcID);
-                                                        PCBook.assignUserToNewPC(userID, pc.getPCID());
-                                                        alert.setTitle("Jalan Bos");
-                                                        alert.setHeaderText("Jalan Bos");
-                                                        alert.setContentText("Jalan Bos");
-                                                        alert.showAndWait();
-                                                        return;
-                                                }
-                                        }
-
+                                // if there's no usable pc, pc reassign failed
+                                if (usablePC == null) {
+                                        error.setTitle("Error");
+                                        error.setHeaderText("Failed");
+                                        error.setContentText("[$$] There's no usable PC");
+                                        error.showAndWait();
+                                        return false;
                                 }
-                        }
-                        alert.setTitle("HEHE");
-                        alert.setHeaderText("Failed");
-                        alert.setContentText("There's no usable PC");
-                        alert.showAndWait();
                 }
+                return false;
         }
 
         // getAllPCBookData()
@@ -82,7 +110,7 @@ public class PCBookController {
         }
 
         // deleteBookData(String bookID)
-public static void deleteBookData(String bookID) {
+        public static void deleteBookData(String bookID) {
                 if (bookID == null) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Error");

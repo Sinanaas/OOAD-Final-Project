@@ -10,24 +10,24 @@ public class ReportController {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 if (userRole == null) {
                         alert.setContentText("User role must not be null");
-                        alert.show();
-                        throw new IllegalArgumentException("User role must not be null");
+                        alert.showAndWait();
+                        return;
                 } else if (userID == null) {
                         alert.setContentText("User ID must not be null");
-                        alert.show();
-                        throw new IllegalArgumentException("User ID must not be null");
+                        alert.showAndWait();
+                        return;
                 } else if (reportNote == null) {
                         alert.setContentText("Report note must not be null");
-                        alert.show();
-                        throw new IllegalArgumentException("Report note must not be null");
+                        alert.showAndWait();
+                        return;
                 } else if (reportNote.length() > 100) {
                         alert.setContentText("Report note must not be more than 100 characters");
-                        alert.show();
-                        throw new IllegalArgumentException("Report note must not be more than 100 characters");
+                        alert.showAndWait();
+                        return;
                 } else if (reportNote.length() < 10) {
                         alert.setContentText("Report note must not be less than 10 characters");
-                        alert.show();
-                        throw new IllegalArgumentException("Report note must not be less than 10 characters");
+                        alert.showAndWait();
+                        return;
                 }
                 Report.addNewReport(userRole, userID, reportNote);
         }

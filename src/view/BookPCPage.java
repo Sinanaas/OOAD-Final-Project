@@ -87,14 +87,11 @@ public class BookPCPage {
                         String bookID = bookIdInput.getText();
                         String pcID = pcIDInput.getText();
                         Date date = java.sql.Date.valueOf(datePicker.getValue());
-                        PCBookController.addNewBook(bookID, pcID, UserSessionHelper.getInstance().getLoggedInUserId(), date);
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Book PC");
-                        alert.setHeaderText("Book PC Success");
-                        alert.setContentText("Book PC Success");
-                        alert.showAndWait();
-                        UserHomePage userHomePage = UserHomePage.getInstance();
-                        userHomePage.show();
+
+                        if (PCBookController.addNewBook(bookID, pcID, UserSessionHelper.getInstance().getLoggedInUserId(), date)) {
+                                UserHomePage userHomePage = UserHomePage.getInstance();
+                                userHomePage.show();
+                        }
                 });
 
                 back.setOnMouseClicked(e -> {

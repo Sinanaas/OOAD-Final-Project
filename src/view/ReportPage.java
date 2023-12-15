@@ -87,13 +87,29 @@ public class ReportPage {
                         alert.setHeaderText("Report PC Success");
                         alert.setContentText("Report PC Success");
                         alert.showAndWait();
-                        UserHomePage userHomePage = UserHomePage.getInstance();
-                        userHomePage.show();
+
+                        if (user.getUserRole() == 2) {
+                                OperatorHomePage operatorHomePage = OperatorHomePage.getInstance();
+                                operatorHomePage.show();
+                        } else if (user.getUserRole() == 1) {
+                                UserHomePage userHomePage = UserHomePage.getInstance();
+                                userHomePage.show();
+                        }
                 });
 
                 back.setOnAction(event -> {
-                        UserHomePage userHomePage = UserHomePage.getInstance();
-                        userHomePage.show();
+                        String uid = UserSessionHelper.getInstance().getLoggedInUserId();
+                        User user = UserController.getAllUserData()
+                                .stream()
+                                .filter(u -> uid != null && uid.equals(u.getUserID()))
+                                .findFirst().orElse(null);
+                        if (user.getUserRole() == 2) {
+                                OperatorHomePage operatorHomePage = OperatorHomePage.getInstance();
+                                operatorHomePage.show();
+                        } else if (user.getUserRole() == 0) {
+                                UserHomePage userHomePage = UserHomePage.getInstance();
+                                userHomePage.show();
+                        }
                 });
         }
 }

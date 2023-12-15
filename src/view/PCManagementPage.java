@@ -47,6 +47,7 @@ public class PCManagementPage {
                 back.setOnAction(e -> {
                         AdminHomePage adminPage = AdminHomePage.getInstance();
                         adminPage.show();
+                        _repaint();
                 });
 
                 // pada add PC,condition akan otomatis Usable, karena PC baru...
@@ -104,6 +105,7 @@ public class PCManagementPage {
         public void show() {
                 MainStage mainStage = MainStage.getInstance();
                 mainStage.getStage().setScene(scene);
+                _repaint();
         }
 
         private void initialize() {

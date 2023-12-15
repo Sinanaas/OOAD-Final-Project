@@ -1,6 +1,7 @@
 package controller;
 
 import helper.Helper;
+import helper.UserSessionHelper;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.User;
@@ -101,8 +102,16 @@ public class UserController {
 
 	// changeUserRole(String userID, int newRole)
 	public static void changeUserRole(String userID, int newRole) {
-		User.changeUserRole(userID, newRole);
+		if (userID.equals(UserSessionHelper.getInstance().getLoggedInUserId())) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Error");
+			alert.setContentText("You cannot change your own role!");
+			alert.showAndWait();
+			return;
+		}
 		Alert alert = new Alert(AlertType.INFORMATION);
+		User.changeUserRole(userID, newRole);
 		alert.setTitle("Change Role");
 		alert.setHeaderText("Change Role Success");
 		alert.showAndWait();

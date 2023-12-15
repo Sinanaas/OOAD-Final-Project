@@ -49,6 +49,7 @@ public class JobManagementPage {
         public void show() {
                 MainStage mainStage = MainStage.getInstance();
                 mainStage.getStage().setScene(scene);
+                _repaint();
         }
 
         private void addEventListener() {
@@ -79,12 +80,12 @@ public class JobManagementPage {
 //                                PCBookController.assignUserToNewPC(selectedTechnicianID, selectedPCID);
 //                        }
                         JobController.addNewJob(selectedTechnicianID, selectedPCID);
+                        _repaint();
                 });
 
                 updateJobStatus.setOnAction(e -> {
                         String selectedJobID = jobIDField.getText();
                         String selectedJobStatus = jobStatusCombo.getValue();
-//                        System.out.println(selectedJobID + " | " + selectedJobStatus);
                         // ini aku taro luar soalnya kalo masukin ke masing-masing controller bakal ribet
                         if (selectedJobID == null || selectedJobStatus == null) {
                                 Alert alert = new Alert(Alert.AlertType.ERROR);

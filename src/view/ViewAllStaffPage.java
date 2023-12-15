@@ -30,11 +30,7 @@ public class ViewAllStaffPage {
                 return viewAllStaffPage = viewAllStaffPage == null ? new ViewAllStaffPage() : viewAllStaffPage;
         }
 
-//        private void _setScene(Stage primaryStage) {
-//                this.primaryStage = primaryStage;
-//                primaryStage.setScene(scene);
-//                _repaint();
-//        }
+
 
 
         public void _repaint() {
@@ -49,13 +45,12 @@ public class ViewAllStaffPage {
         public ViewAllStaffPage() {
                 initialize();
                 addEventListener();
-                _repaint();
         }
 
         public void show() {
-                _repaint();
                 MainStage mainStage = MainStage.getInstance();
                 mainStage.getStage().setScene(scene);
+                _repaint();
         }
 
         private void addEventListener() {

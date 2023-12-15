@@ -58,19 +58,9 @@ public class TechnicianHomePage {
                                 alert.setHeaderText("Error");
                                 alert.setContentText("Please fill in all fields");
                                 alert.showAndWait();
-                        } else if (!jobStatus.equals("Complete")) {
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.setTitle("Error");
-                                alert.setHeaderText("Error");
-                                alert.setContentText("Job status must be complete");
-                                alert.showAndWait();
+                                return;
                         } else {
                                 JobController.updateJobStatus(jobID,  jobStatus);
-                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                alert.setTitle("Success");
-                                alert.setHeaderText("Success");
-                                alert.setContentText("Job status updated");
-                                alert.showAndWait();
                                 jobTable.getItems().clear();
                                 List<Job> jobList = JobController.getAllJobData();
                                 for (Job job : jobList) {

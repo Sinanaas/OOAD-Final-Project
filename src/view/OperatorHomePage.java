@@ -1,6 +1,7 @@
 package view;
 
 import controller.PCBookController;
+import controller.TransactionController;
 import helper.UserSessionHelper;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -14,6 +15,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.PCBook;
+import model.TransactionHeader;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 
 public class OperatorHomePage {
         public static OperatorHomePage operatorHomePage;
@@ -27,7 +34,7 @@ public class OperatorHomePage {
         private VBox vb;
         private TableView pcBookTable;
         private TextField pcIDInput, userIDInput, bookedDateInput, pcBookIDInput;
-        private Button cancelBtn, finishBtn, reassignBtn, logout;
+        private Button cancelBtn, finishBtn, reassignBtn, logout, report;
         public OperatorHomePage() {
                 initialize();
                 addEventListener();
@@ -42,19 +49,61 @@ public class OperatorHomePage {
                 pcBookIDInput.clear();
         }
         private void addEventListener() {
+                report.setOnAction(e -> {
+                        ReportPage reportPage = ReportPage.getInstance();
+                        reportPage.show();
+                });
+
                 logout.setOnAction(e -> {
                         LoginPage loginPage = LoginPage.getInstance();
                         UserSessionHelper.getInstance().clear();
                         loginPage.show();
                 });
+
                 cancelBtn.setOnAction(e -> {
-                        PCBookController.deleteBookData(pcBookIDInput.getText());
-                        _repaint();
+                        List<PCBook> selectedPCBooks = pcBookTable.getSelectionModel().getSelectedItems();
+
+                        if (!selectedPCBooks.isEmpty()) {
+                                for (PCBook pcBook : selectedPCBooks) {
+                                        Date pcBookBookedDate = new Date(pcBook.getBookedDate().getTime());
+                                        LocalDate bookedDate = pcBookBookedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                                        if (!LocalDate.now().isBefore(bookedDate)) {
+                                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                                alert.setTitle("Cancel Booking");
+                                                alert.setHeaderText("Cancel Booking");
+                                                alert.setContentText("Cannot cancel booking that already passed");
+                                                alert.showAndWait();
+                                                return;
+                                        }
+
+                                        PCBookController.deleteBookData(pcBook.getBookID());
+
+                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                        alert.setTitle("Cancel Booking");
+                                        alert.setHeaderText("Cancel Booking");
+                                        alert.setContentText("Cancel Booking Successfully");
+                                        alert.showAndWait();
+                                }
+
+                                _repaint();
+                        }
                 });
 
                 finishBtn.setOnAction(e -> {
-                        PCBookController.deleteBookData(pcBookIDInput.getText());
-                        _repaint();
+                        List<PCBook> selectedPCBooks = pcBookTable.getSelectionModel().getSelectedItems();
+                        if (!selectedPCBooks.isEmpty()) {
+                                for (PCBook pcBook : selectedPCBooks) {
+                                        TransactionController.addNewTransaction(TransactionHeader.generateID(), selectedPCBooks, UserSessionHelper.getInstance().getLoggedInUserId());
+                                        PCBookController.deleteBookData(pcBook.getBookID());
+                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                        alert.setTitle("Finish Booking");
+                                        alert.setHeaderText("Finish Booking");
+                                        alert.setContentText("Finish Booking Successfully");
+                                        alert.showAndWait();
+                                }
+                                _repaint();
+                        }
                 });
 
                 reassignBtn.setOnAction(e -> {
@@ -78,6 +127,7 @@ public class OperatorHomePage {
                 });
         }
         private void initialize() {
+                report = new Button("Report");
                 title = new Label("PCBook Management");
                 Font font = Font.font("Arial", FontWeight.BOLD, 30);
                 title.setFont(font);
@@ -132,12 +182,14 @@ public class OperatorHomePage {
 
                 pcBookTable.getColumns().addAll(bookIDCol, pcIDCol, userIDCol, bookedDateCol);
                 pcBookTable.getItems().addAll(PCBookController.getAllPCBookedData());
-                vb.getChildren().addAll(bp, pcBookTable, hb);
+                pcBookTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                vb.getChildren().addAll(bp, pcBookTable, hb, report);
                 vb.setPadding(new Insets(12, 15, 12, 15));
                 scene = new Scene(vb, 800, 600);
         }
         public void show() {
                 MainStage mainStage = MainStage.getInstance();
                 mainStage.getStage().setScene(scene);
+                _repaint();
         }
 }

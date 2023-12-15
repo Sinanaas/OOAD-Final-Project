@@ -5,6 +5,7 @@ import javafx.scene.control.Alert;
 import model.Job;
 import model.PC;
 import model.PCBook;
+import model.User;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +15,6 @@ public class JobController {
         public static void addNewJob(String userID, String pcID) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-
                 if (userID == null || pcID == null) {
                         alert.setTitle("Error");
                         alert.setHeaderText("Error");
@@ -34,58 +34,36 @@ public class JobController {
                                         }
                                 }
                         }
-
                         // Check if the selected PC is booked
                         if (PCBookController.getPCBookedDetail(pcID) != null) {
-                                List<PC> pcList = PCController.getAllPCData();
-                                List<PCBook> pcBookList = PCBookController.getAllPCBookedData();
-                                String availablePCID = null;
-                                String reassignUserID = null;
-
-                                // Find an available and usable PC
-                                for (PC pc : pcList) {
-                                        boolean pcIsBooked = false;
-
-                                        // Check if the PC is booked in PCBook
-                                        for (PCBook pcBook : pcBookList) {
-                                                if (pc.getPCID().equals(pcBook.getPCID())) {
-                                                        pcIsBooked = true;
-                                                        reassignUserID = pcBook.getUserID();
-                                                        break;
-                                                }
-                                        }
-
-                                        // Check if the PC is usable and not booked
-                                        if (!pcIsBooked && pc.getPCCondition().equals("Usable")) {
-                                                availablePCID = pc.getPCID();
-                                                break;  // found an available and usable PC, exit the loop
-                                        }
-                                }
-
-                                // If the selected PC is already booked, reassign the user
-                                if (reassignUserID != null && availablePCID != null) {
+                                System.out.println("PC DI BOOKING WOY");
+                                String tempUserID= PCBookController.getAllPCBookedData().stream().filter(pcBook -> pcBook.getPCID().equals(pcID)).findFirst().get().getUserID();
+                                boolean flag = PCBookController.assignUserToNewPC(tempUserID, pcID);
+                                if (flag == true) {
                                         PCController.updatePCCondition(pcID, "Maintenance");
-                                        PCBookController.assignUserToNewPC(reassignUserID, availablePCID);
-                                }
-
-                                // If no usable PCs are available
-                                if (availablePCID == null) {
+                                        Job.addNewJob(userID, pcID);
+                                        successAlert.setTitle("Success");
+                                        successAlert.setHeaderText("Success");
+                                        successAlert.setContentText("Successfully added a new job");
+                                        successAlert.showAndWait();
+                                        return;
+                                } else {
                                         alert.setTitle("Error");
                                         alert.setHeaderText("Error");
-                                        alert.setContentText("No usable PCs available");
+                                        alert.setContentText("Failed to assign user to new PC");
                                         alert.showAndWait();
-                                        return;  // exit the method if no usable PCs are available
+                                        return;
                                 }
+                        } else {
+                                System.out.println("PC GA DI BOOKING WOY");
+                                Job.addNewJob(userID, pcID);
+                                PCController.updatePCCondition(pcID, "Maintenance");
+                                successAlert.setTitle("Success");
+                                successAlert.setHeaderText("Success");
+                                successAlert.setContentText("Successfully added a new job");
+                                successAlert.showAndWait();
+                                return;
                         }
-
-                        // Add a new job with the available PC
-                        Job.addNewJob(userID, pcID);
-
-                        // Show success message
-                        successAlert.setTitle("Success");
-                        successAlert.setHeaderText("Success");
-                        successAlert.setContentText("Add new job successfully");
-                        successAlert.showAndWait();
                 }
         }
 
@@ -94,11 +72,36 @@ public class JobController {
         // updateJobStatus(JobID, JobStatus)
         public static void updateJobStatus(String jobID, String jobStatus) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                if (jobID == null || jobStatus == null) {
+                boolean isJobConflictWithPCBook = false;
+                List<PCBook> pcBookList = PCBookController.getAllPCBookedData();
+
+                for (PCBook pcBook : pcBookList) {
+                        if (pcBook.getPCID().equals(jobID)) {
+                                isJobConflictWithPCBook = true;
+                                break;
+                        }
+                }
+
+                if (!jobStatus.equals("Complete")) {
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Error");
+                        alert.setContentText("Job status must be complete");
+                        alert.showAndWait();
+                        return;
+                }
+
+                if ((jobID == null || jobStatus == null)) {
                         alert.setTitle("Error");
                         alert.setHeaderText("Error");
                         alert.setContentText("Please select job and status");
                         alert.showAndWait();
+                        return;
+                } else if (isJobConflictWithPCBook)  {
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Cannot update job status");
+                        alert.setContentText("Job is conflict with PCBook");
+                        alert.showAndWait();
+                        return;
                 } else {
                         Job.updateJobStatus(jobID, jobStatus);
                         Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
@@ -106,6 +109,7 @@ public class JobController {
                         alert1.setHeaderText("Success");
                         alert1.setContentText("Update job status successfully");
                         alert1.showAndWait();
+                        return;
                 }
         }
 

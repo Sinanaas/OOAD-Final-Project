@@ -46,9 +46,6 @@ public class PC {
                                 PC pc = new PC(PCID, PCCondition);
                                 pcList.add(pc);
                         }
-                        for (PC pc : pcList) {
-                                System.out.println(pc.getPCID() + " | " + pc.getPCCondition());
-                        }
                         return pcList;
                 } catch (SQLException e) {
                         e.printStackTrace();
@@ -116,5 +113,8 @@ public class PC {
 
         public void setPCCondition(String PCCondition) {
                 this.PCCondition = PCCondition;
+        }
+
+        public PC() {
         }
 }
