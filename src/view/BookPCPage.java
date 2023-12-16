@@ -12,9 +12,6 @@ import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.PCBook;
 import helper.UserSessionHelper;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class BookPCPage {
@@ -31,9 +28,19 @@ public class BookPCPage {
         private HBox dateHb;
         private Button bookButton, back;
 
-        public static BookPCPage getInstance(String pcID) {
-                return bookPCPage = bookPCPage == null ? new BookPCPage(pcID) : bookPCPage;
+        public void close () {
+                scene = null;
         }
+
+//        public static BookPCPage getInstance(String pcID) {
+//                return bookPCPage = bookPCPage == null ? new BookPCPage(pcID) : bookPCPage;
+//        }
+
+        // disini saya ngga pake singleton, karena jika saya pake singleton, data yang di passing ke dalam BookPCPage akan sama terus, dan tidak bisa diubah, maka saya buat objek baru setiap kali BookPCPage di panggil dan saya juga buat method close untuk menghapus objek BookPCPage yang lama
+        public static BookPCPage getInstance(String pcID) {
+                return new BookPCPage(pcID);
+        }
+
         public BookPCPage(String pcid) {
                 this.pcID = pcid;
                 initialize();
@@ -89,12 +96,15 @@ public class BookPCPage {
                         Date date = java.sql.Date.valueOf(datePicker.getValue());
 
                         if (PCBookController.addNewBook(bookID, pcID, UserSessionHelper.getInstance().getLoggedInUserId(), date)) {
+//                                BookPCPage bookPCPage = BookPCPage.getInstance(pcID);
+//                                bookPCPage.close();
                                 UserHomePage userHomePage = UserHomePage.getInstance();
                                 userHomePage.show();
                         }
                 });
 
                 back.setOnMouseClicked(e -> {
+//                        BookPCPage bookPCPage = BookPCPage.getInstance(pcID);
                         UserHomePage userHomePage = UserHomePage.getInstance();
                         userHomePage.show();
                 });

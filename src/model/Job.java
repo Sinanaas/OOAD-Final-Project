@@ -42,7 +42,6 @@ public class Job {
                 Connect connect = Connect.getConnection();
                 String query = String.format("INSERT INTO JOB VALUES ('%s', '%s', '%s', '%s')", jobID, userID, pcID, unComplete);
                 connect.executeUpdate(query);
-                System.out.println("TEST2:" + userID + " " + pcID);
         }
 
         // updateJobStatus(JobID, JobStatus)

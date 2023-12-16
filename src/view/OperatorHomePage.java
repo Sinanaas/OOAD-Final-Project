@@ -38,6 +38,7 @@ public class OperatorHomePage {
         public OperatorHomePage() {
                 initialize();
                 addEventListener();
+                _repaint();
         }
 
         public void _repaint() {
@@ -93,15 +94,15 @@ public class OperatorHomePage {
                 finishBtn.setOnAction(e -> {
                         List<PCBook> selectedPCBooks = pcBookTable.getSelectionModel().getSelectedItems();
                         if (!selectedPCBooks.isEmpty()) {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                TransactionController.addNewTransaction(TransactionHeader.generateID(), selectedPCBooks, UserSessionHelper.getInstance().getLoggedInUserId());
                                 for (PCBook pcBook : selectedPCBooks) {
-                                        TransactionController.addNewTransaction(TransactionHeader.generateID(), selectedPCBooks, UserSessionHelper.getInstance().getLoggedInUserId());
                                         PCBookController.deleteBookData(pcBook.getBookID());
-                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                        alert.setTitle("Finish Booking");
-                                        alert.setHeaderText("Finish Booking");
-                                        alert.setContentText("Finish Booking Successfully");
-                                        alert.showAndWait();
                                 }
+                                alert.setTitle("Finish Booking");
+                                alert.setHeaderText("Finish Booking");
+                                alert.setContentText("Finish Booking Successfully");
+                                alert.showAndWait();
                                 _repaint();
                         }
                 });

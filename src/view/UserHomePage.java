@@ -2,6 +2,7 @@ package view;
 
 import controller.PCBookController;
 import controller.PCController;
+import controller.TransactionController;
 import helper.UserSessionHelper;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -18,13 +19,17 @@ import javafx.util.Callback;
 import main.MainStage;
 import model.PC;
 import model.PCBook;
+import model.TransactionDetail;
+import model.TransactionHeader;
+
+import java.util.List;
 
 public class UserHomePage {
         private static UserHomePage userHomePage;
         private Scene scene;
-        private HBox hb;
+        private HBox hb, bawah;
         private BorderPane bp;
-        private Button reportButton, logoutButton;
+        private Button reportButton, logoutButton, transactionBtn;
         private TableView pcTable;
         public static UserHomePage getInstance() {
                 return userHomePage = userHomePage == null ? new UserHomePage() : userHomePage;
@@ -51,6 +56,12 @@ public class UserHomePage {
                         UserSessionHelper.getInstance().clear();
                         loginPage.show();
                 });
+
+                transactionBtn.setOnAction((ActionEvent event) -> {
+//                        List<TransactionDetail> transactionHeaderList = TransactionController.getUserTransactionDetail(UserSessionHelper.getInstance().getLoggedInUserId());
+                        TransactionHistoryDetailPage transactionHistoryDetailPage = TransactionHistoryDetailPage.getInstance(null, TransactionController.getUserTransactionDetail(UserSessionHelper.getInstance().getLoggedInUserId()));
+                        transactionHistoryDetailPage.show();
+                });
         }
 
         public void show() {
@@ -60,6 +71,8 @@ public class UserHomePage {
         }
 
         private void initialize() {
+                bawah = new HBox();
+                transactionBtn = new Button("Your Transaction History");
                 Label label = new Label("User Home Page");
                 label.setFont(Font.font("Arial", FontWeight.BOLD, 36));
                 reportButton = new Button("Report PC");
@@ -149,7 +162,9 @@ public class UserHomePage {
                 pcTable.getItems().addAll(PCController.getAllPCData());
                 pcTable.setPrefHeight(400);
                 pcTable.setPrefWidth(800);
-                vb.getChildren().addAll(bp, pcTable, reportButton);
+                bawah.getChildren().addAll(reportButton, transactionBtn);
+                bawah.setSpacing(10);
+                vb.getChildren().addAll(bp, pcTable, bawah);
                 scene = new Scene(vb, 800, 600);
         }
 }

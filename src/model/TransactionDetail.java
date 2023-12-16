@@ -4,6 +4,7 @@ import database.Connect;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,13 +34,13 @@ public class TransactionDetail {
                 return nextID;
         }
 
-
-        // gerUserTransactionDetail(String UserID)
         public static List<TransactionDetail> getUserTransactionDetail(String userID) {
                 Connect connect = Connect.getConnection();
-                String query = String.format("SELECT * FROM TransactionDetail WHERE CustomerID = '%s'", userID);
+                String query = String.format("SELECT * FROM TransactionDetail td JOIN Users u ON td.CustomerName = u.username WHERE u.UserID = '%s'", userID);
+
                 ResultSet rs = connect.executeQuery(query);
-                List<TransactionDetail> transactionDetailList = null;
+                List<TransactionDetail> transactionDetailList = new ArrayList<>();
+
                 try {
                         while (rs.next()) {
                                 String transactionID = rs.getString("TransactionID");
@@ -53,15 +54,17 @@ public class TransactionDetail {
                 } catch (Exception e) {
                         e.printStackTrace();
                 }
+
                 return transactionDetailList;
         }
+
 
         // getAllTransactionDetail(TransactionID)
         public static List<TransactionDetail> getAllTransactionDetail(String transactionID) {
                 Connect connect = Connect.getConnection();
                 String query = String.format("SELECT * FROM TransactionDetail WHERE TransactionID = '%s'", transactionID);
                 ResultSet rs = connect.executeQuery(query);
-                List<TransactionDetail> transactionDetailList = null;
+                List<TransactionDetail> transactionDetailList = new ArrayList<>();
                 try {
                         while (rs.next()) {
                                 String pcID = rs.getString("PCID");

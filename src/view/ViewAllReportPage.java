@@ -68,7 +68,6 @@ public class ViewAllReportPage {
                 reportTable.getColumns().addAll(reportIdColumn, userRoleColumn, pcIdColumn, reportNoteColumn, reportDateColumn);
                 ArrayList<Report> reportList = new ArrayList<>();
                 reportList.addAll(ReportController.getAllReportData());
-                System.out.println(reportList.size());
                 if (reportList.size() > 0) {
                         reportTable.getItems().addAll(reportList);
                 }

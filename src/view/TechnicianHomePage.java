@@ -1,6 +1,7 @@
 package view;
 
 import controller.JobController;
+import controller.PCController;
 import helper.UserSessionHelper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -61,6 +62,7 @@ public class TechnicianHomePage {
                                 return;
                         } else {
                                 JobController.updateJobStatus(jobID,  jobStatus);
+                                PCController.updatePCCondition(pcID, "Usable");
                                 jobTable.getItems().clear();
                                 List<Job> jobList = JobController.getAllJobData();
                                 for (Job job : jobList) {

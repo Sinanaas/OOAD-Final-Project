@@ -37,7 +37,6 @@ public class ChangeRolePage {
 
         private void addEventListener() {
                 button.setOnAction(e -> {
-                        System.out.println(roleComboBox.getValue());
                         if (roleComboBox.getValue() == null) {
                                 Alert alert = new Alert(Alert.AlertType.ERROR);
                                 alert.setTitle("Error");

@@ -41,7 +41,6 @@ public final class Connect {
             st = con.createStatement(); 
         } catch(Exception e) {
         	e.printStackTrace();
-        	System.out.println("Failed to connect the database, the system is terminated!");
         	System.exit(0);
         }  
     }

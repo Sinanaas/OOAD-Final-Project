@@ -27,7 +27,7 @@ public class PCBookController {
                 }
 
                 // Convert java.sql.Date to java.util.Date
-                java.util.Date utilDate = new Date(date.getTime());
+                Date utilDate = new Date(date.getTime());
 
                 LocalDate bookLocalDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
@@ -81,8 +81,6 @@ public class PCBookController {
                                 for (PC pc : pcList) {
                                         PC temp = PCBookController.getPCBookedDetail(pc.getPCID());
                                         if (temp == null && pc.getPCCondition().equals("Usable") && !pc.getPCID().equals(pcID)) {
-//                                                System.out.println(temp.getPCID() + " ][" +  temp.getPCCondition());
-//                                                usablePC = temp;
                                                 PCBook.assignUserToNewPC(userID,pc.getPCID());
                                                 alert.setTitle("Success");
                                                 alert.setHeaderText("Success");

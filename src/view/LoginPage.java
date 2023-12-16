@@ -70,7 +70,6 @@ public class LoginPage {
 			UserSessionHelper userSession = UserSessionHelper.getInstance();
 			userSession.setLoggedInUserId(user.getUserID());
 
-			System.out.println(user.getUserRole());
 			if (user.getUserRole() == 0) {
 				UserHomePage userHomePage = UserHomePage.getInstance();
 				userHomePage.show();

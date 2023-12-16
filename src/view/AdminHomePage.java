@@ -50,12 +50,12 @@ public class AdminHomePage {
                         JobManagementPage jobManagementPage = JobManagementPage.getInstance();
                         jobManagementPage.show();
                 });
-//
-//                transactionHistory.setOnAction(e -> {
-//                        TransactionHistoryPage transactionHistoryPage = TransactionHistoryPage.getInstance();
-//                        transactionHistoryPage.show();
-//                });
-//
+
+                transactionHistory.setOnAction(e -> {
+                        TransactionHistoryPage transactionHistoryPage = TransactionHistoryPage.getInstance();
+                        transactionHistoryPage.show();
+                });
+
                 viewAllReport.setOnAction(e -> {
                         ViewAllReportPage viewAllReportPage = ViewAllReportPage.getInstance();
                         viewAllReportPage.show();

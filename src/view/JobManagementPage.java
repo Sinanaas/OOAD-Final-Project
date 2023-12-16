@@ -36,6 +36,7 @@ public class JobManagementPage {
 
         public JobManagementPage() {
                 initialize();
+                _repaint();
                 addEventListener();
         }
 

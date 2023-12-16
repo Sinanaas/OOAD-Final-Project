@@ -110,7 +110,6 @@ public class PCBook {
         // assignUserToNewPC(String userID, String pcID,)
         public static void assignUserToNewPC(String userID, String pcID) {
                 Connect connect = Connect.getConnection();
-                System.out.println("TEST PCBOOK MODEL:" + userID + " " + pcID);
 
                 String query = "UPDATE PCBook SET PCID = ? WHERE UserID = ?";
 
@@ -121,7 +120,6 @@ public class PCBook {
                 } catch (SQLException e) {
                         e.printStackTrace();
                 }
-                System.out.println(query);
         }
 
 

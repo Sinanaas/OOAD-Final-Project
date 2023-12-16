@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class TransactionHeader {
                 Connect connect = Connect.getConnection();
                 String query = "SELECT * FROM TransactionHeader";
                 ResultSet rs = connect.executeQuery(query);
-                List<TransactionHeader> transactionHeaderList = null;
+                List<TransactionHeader> transactionHeaderList = new ArrayList<>();
                 try {
                         while (rs.next()) {
                                 String transactionID = rs.getString("TransactionID");

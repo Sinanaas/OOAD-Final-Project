@@ -142,6 +142,9 @@ public class User {
 		UserRole = userRole;
 	}
 
+	public User() {
+	}
+
 	public User(String userID, String username, String userPassword, Integer userAge, Integer userRole) {
 		UserID = userID;
 		Username = username;

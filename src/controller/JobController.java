@@ -36,7 +36,6 @@ public class JobController {
                         }
                         // Check if the selected PC is booked
                         if (PCBookController.getPCBookedDetail(pcID) != null) {
-                                System.out.println("PC DI BOOKING WOY");
                                 String tempUserID= PCBookController.getAllPCBookedData().stream().filter(pcBook -> pcBook.getPCID().equals(pcID)).findFirst().get().getUserID();
                                 boolean flag = PCBookController.assignUserToNewPC(tempUserID, pcID);
                                 if (flag == true) {
@@ -55,7 +54,6 @@ public class JobController {
                                         return;
                                 }
                         } else {
-                                System.out.println("PC GA DI BOOKING WOY");
                                 Job.addNewJob(userID, pcID);
                                 PCController.updatePCCondition(pcID, "Maintenance");
                                 successAlert.setTitle("Success");
