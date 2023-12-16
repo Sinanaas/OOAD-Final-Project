@@ -21,7 +21,8 @@ public class AdminHomePage {
         VBox vb;
         HBox hb;
         public static AdminHomePage getInstance() {
-                return adminHomePage = adminHomePage == null ? new AdminHomePage() : adminHomePage;
+//                return adminHomePage = adminHomePage == null ? new AdminHomePage() : adminHomePage;
+                return new AdminHomePage();
         }
 
         public  AdminHomePage() {

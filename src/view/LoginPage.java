@@ -20,7 +20,8 @@ public class LoginPage {
 	private static LoginPage loginPage;
 
 	public static LoginPage getInstance() {
-		return loginPage = loginPage == null ? new LoginPage() : loginPage;
+//		return loginPage = loginPage == null ? new LoginPage() : loginPage;
+		return new LoginPage();
 	}
 
 	private LoginPage() {

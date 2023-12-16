@@ -26,7 +26,8 @@ public class ReportPage {
         private Button reportButton, back;
 
         public static ReportPage getInstance() {
-                return reportPage = reportPage == null ? new ReportPage() : reportPage;
+//                return reportPage = reportPage == null ? new ReportPage() : reportPage;
+                return new ReportPage();
         }
 
         public ReportPage() {

@@ -31,7 +31,8 @@ public class JobManagementPage {
         private TableView jobTable;
         private Button assignButton, updateJobStatus, back;
         public static JobManagementPage getInstance() {
-                return jobManagementPage = (jobManagementPage == null) ? new JobManagementPage() : jobManagementPage;
+//                return jobManagementPage = (jobManagementPage == null) ? new JobManagementPage() : jobManagementPage;
+                return new JobManagementPage();
         }
 
         public JobManagementPage() {

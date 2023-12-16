@@ -26,7 +26,7 @@ public class UserController {
 
 		// check if user exists
 		if (User.getUserData(username, userPassword) == null) {
-			Helper.showAlert(AlertType.ERROR, "User doesn't exists!");
+			Helper.showAlert(AlertType.ERROR, "Wrong Creadentials!");
 			return null;
 		}
 

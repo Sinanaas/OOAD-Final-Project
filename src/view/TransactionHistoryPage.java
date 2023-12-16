@@ -23,7 +23,8 @@ import java.util.List;
 public class TransactionHistoryPage {
         public static TransactionHistoryPage transactionHistoryPage;
         public static TransactionHistoryPage getInstance() {
-                return transactionHistoryPage = transactionHistoryPage == null ? new TransactionHistoryPage() : transactionHistoryPage;
+//                return transactionHistoryPage = transactionHistoryPage == null ? new TransactionHistoryPage() : transactionHistoryPage;
+                return new TransactionHistoryPage();
         }
         private Label title;
         private Scene scene;

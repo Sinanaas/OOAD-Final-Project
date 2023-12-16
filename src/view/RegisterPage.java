@@ -22,7 +22,8 @@ public class RegisterPage {
 	private static RegisterPage registerPage;
 
 	public static RegisterPage getInstance() {
-		return registerPage = registerPage == null ? new RegisterPage() : registerPage;
+//		return registerPage = registerPage == null ? new RegisterPage() : registerPage;
+		return new RegisterPage();
 	}
 
 	private RegisterPage() {

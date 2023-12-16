@@ -25,7 +25,8 @@ import java.util.List;
 public class OperatorHomePage {
         public static OperatorHomePage operatorHomePage;
         public static OperatorHomePage getInstance() {
-                return operatorHomePage = operatorHomePage == null ? new OperatorHomePage() : operatorHomePage;
+//                return operatorHomePage = operatorHomePage == null ? new OperatorHomePage() : operatorHomePage;
+                return new OperatorHomePage();
         }
         private Label title;
         private BorderPane bp;

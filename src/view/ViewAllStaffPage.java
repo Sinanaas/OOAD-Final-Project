@@ -27,11 +27,9 @@ public class ViewAllStaffPage {
         HBox hb;
 
         public static ViewAllStaffPage getInstance() {
-                return viewAllStaffPage = viewAllStaffPage == null ? new ViewAllStaffPage() : viewAllStaffPage;
+//                return viewAllStaffPage = viewAllStaffPage == null ? new ViewAllStaffPage() : viewAllStaffPage;
+                return new ViewAllStaffPage();
         }
-
-
-
 
         public void _repaint() {
                 userTable.getItems().clear();

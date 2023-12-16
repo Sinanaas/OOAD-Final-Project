@@ -32,7 +32,8 @@ public class UserHomePage {
         private Button reportButton, logoutButton, transactionBtn;
         private TableView pcTable;
         public static UserHomePage getInstance() {
-                return userHomePage = userHomePage == null ? new UserHomePage() : userHomePage;
+//                return userHomePage = userHomePage == null ? new UserHomePage() : userHomePage;
+                return new UserHomePage();
         }
 
         private UserHomePage() {

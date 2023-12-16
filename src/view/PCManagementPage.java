@@ -28,7 +28,8 @@ public class PCManagementPage {
         private Button addPC, updatePC, deletePC, back;
 
         public static PCManagementPage getInstance() {
-                return pcManagementPage = pcManagementPage == null ? new PCManagementPage() : pcManagementPage;
+//                return pcManagementPage = pcManagementPage == null ? new PCManagementPage() : pcManagementPage;
+                return new PCManagementPage();
         }
 
         public PCManagementPage() {

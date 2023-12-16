@@ -26,7 +26,8 @@ public class ChangeRolePage {
         private ComboBox<String> roleComboBox;
         private Button button, back;
         public static ChangeRolePage getInstance(User user) {
-                return changeRolePage = changeRolePage == null ? new ChangeRolePage(user) : changeRolePage;
+//                return changeRolePage = changeRolePage == null ? new ChangeRolePage(user) : changeRolePage;
+                return new ChangeRolePage(user);
         }
 
         public ChangeRolePage(User user) {

@@ -30,7 +30,8 @@ public class TechnicianHomePage {
         private TextField jobIDField,  userIDField, pcIDField;
         private Button completeJobBtn, logout;
         public static TechnicianHomePage getInstance() {
-                return technicianHomePage = technicianHomePage == null ? new TechnicianHomePage() : technicianHomePage;
+//                return technicianHomePage = technicianHomePage == null ? new TechnicianHomePage() : technicianHomePage;
+                return new TechnicianHomePage();
         }
         private TechnicianHomePage() {
                 initialize();

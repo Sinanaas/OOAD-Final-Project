@@ -24,7 +24,8 @@ public class ViewAllReportPage {
         private TableView<Report> reportTable;
         private TableColumn<Report, String> reportIdColumn, userRoleColumn, pcIdColumn, reportNoteColumn, reportDateColumn;
         public static ViewAllReportPage getInstance() {
-                return viewAllReport = viewAllReport == null ? new ViewAllReportPage() : viewAllReport;
+//                return viewAllReport = viewAllReport == null ? new ViewAllReportPage() : viewAllReport;
+                return new ViewAllReportPage();
         }
         public ViewAllReportPage() {
                 initialize();
@@ -68,7 +69,9 @@ public class ViewAllReportPage {
                 reportTable.getColumns().addAll(reportIdColumn, userRoleColumn, pcIdColumn, reportNoteColumn, reportDateColumn);
                 ArrayList<Report> reportList = new ArrayList<>();
                 reportList.addAll(ReportController.getAllReportData());
-                if (reportList.size() > 0) {
+
+
+                 if (reportList.size() > 0) {
                         reportTable.getItems().addAll(reportList);
                 }
                 back = new Button("Back");
