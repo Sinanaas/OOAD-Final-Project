@@ -96,15 +96,12 @@ public class BookPCPage {
                         Date date = java.sql.Date.valueOf(datePicker.getValue());
 
                         if (PCBookController.addNewBook(bookID, pcID, UserSessionHelper.getInstance().getLoggedInUserId(), date)) {
-//                                BookPCPage bookPCPage = BookPCPage.getInstance(pcID);
-//                                bookPCPage.close();
                                 UserHomePage userHomePage = UserHomePage.getInstance();
                                 userHomePage.show();
                         }
                 });
 
                 back.setOnMouseClicked(e -> {
-//                        BookPCPage bookPCPage = BookPCPage.getInstance(pcID);
                         UserHomePage userHomePage = UserHomePage.getInstance();
                         userHomePage.show();
                 });

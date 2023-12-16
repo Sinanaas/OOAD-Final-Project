@@ -1,19 +1,14 @@
 package view;
 
-import controller.PCBookController;
-import controller.TransactionController;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.util.Callback;
 import main.MainStage;
-import model.PC;
 import model.TransactionDetail;
 import model.TransactionHeader;
 
@@ -82,41 +77,32 @@ public class TransactionHistoryPage {
                 transactionTimeCol.setMinWidth(175);
                 detailCol.setMinWidth(40);
 
-                Callback<TableColumn<TransactionHeader, Void>, TableCell<TransactionHeader, Void>> cellFactory = new Callback<>() {
-                        @Override
-                        public TableCell<TransactionHeader, Void> call(final TableColumn<TransactionHeader, Void> param) {
-                                final TableCell<TransactionHeader, Void> cell = new TableCell<>() {
-                                        private final Button btn = new Button("Details");
+                detailCol.setCellFactory(param -> new TableCell<>() {
+                        private final Button btn = new Button("Details");
 
-                                        {
-                                                btn.setOnAction((ActionEvent event) -> {
-                                                        TransactionHeader transactionHeader = getTableView().getItems().get(getIndex());
-                                                        List<TransactionHeader> transactionHeaderList = new ArrayList<>();
-                                                        transactionHeaderList.add(transactionHeader);
-                                                        TransactionHistoryDetailPage transactionHistoryDetailPage = TransactionHistoryDetailPage.getInstance(transactionHeaderList, null);
-                                                        transactionHistoryDetailPage.show();
-                                                });
-                                        }
-
-                                        @Override
-                                        public void updateItem(Void item, boolean empty) {
-                                                super.updateItem(item, empty);
-                                                if (empty) {
-                                                        setGraphic(null);
-                                                } else {
-                                                        setGraphic(btn);
-                                                }
-                                        }
-                                };
-                                return cell;
+                        {
+                                btn.setOnAction((ActionEvent event) -> {
+                                        TransactionHeader transactionHeader = getTableView().getItems().get(getIndex());
+                                        List<TransactionHeader> transactionHeaderList = new ArrayList<>();
+                                        transactionHeaderList.add(transactionHeader);
+                                        TransactionHistoryDetailPage transactionHistoryDetailPage = TransactionHistoryDetailPage.getInstance(transactionHeaderList, null);
+                                        transactionHistoryDetailPage.show();
+                                });
                         }
-                };
-                detailCol.setCellFactory(cellFactory);
+
+                        @Override
+                        public void updateItem(Void item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                        setGraphic(null);
+                                } else {
+                                        setGraphic(btn);
+                                }
+                        }
+                });
                 transactionHistoryTable.getColumns().addAll(transactionIDCol, staffIDCol, staffNameCol, transactionTimeCol, detailCol);
 
-
                 for (TransactionHeader transactionHeader : TransactionHeader.getAllTransactionHeaderData()) {
-//                        transactionHistoryTable.getItems().addAll(TransactionController.getAllTransactionDetail(transactionHeader.getTransactionID()));
                         transactionHistoryTable.getItems().add(transactionHeader);
                 }
                 vb = new VBox();

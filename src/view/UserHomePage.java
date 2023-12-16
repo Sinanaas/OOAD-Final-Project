@@ -15,14 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.util.Callback;
 import main.MainStage;
 import model.PC;
-import model.PCBook;
-import model.TransactionDetail;
-import model.TransactionHeader;
-
-import java.util.List;
 
 public class UserHomePage {
         private static UserHomePage userHomePage;
@@ -101,62 +95,54 @@ public class UserHomePage {
 
                 bookPCColumn.setMinWidth(174);
 
-                Callback<TableColumn<PC, Void>, TableCell<PC, Void>> cellFactory = new Callback<>() {
-                        @Override
-                        public TableCell<PC, Void> call(final TableColumn<PC, Void> param) {
-                                final TableCell<PC, Void> cell = new TableCell<>() {
-                                        private final Button btn = new Button("Book PC");
+                bookPCColumn.setCellFactory(param -> new TableCell<>() {
+                        private final Button btn = new Button("Book PC");
+                        {
+                                btn.setOnAction((ActionEvent event) -> {
+                                        PC pc = getTableView().getItems().get(getIndex());
 
-                                        {
-                                                btn.setOnAction((ActionEvent event) -> {
-                                                        PC pc = getTableView().getItems().get(getIndex());
-                                                        if (pc.getPCCondition().equals("Broken")) {
-                                                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                                                alert.setTitle("Error");
-                                                                alert.setHeaderText("PC is broken");
-                                                                alert.setContentText("Please select another PC");
-                                                                alert.showAndWait();
-                                                                return;
-                                                        }
-
-                                                        if (pc.getPCCondition().equals("Maintenance")) {
-                                                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                                                alert.setTitle("Error");
-                                                                alert.setHeaderText("PC is being maintained");
-                                                                alert.setContentText("Please select another PC");
-                                                                alert.showAndWait();
-                                                                return;
-                                                        }
-
-                                                        if (PCBookController.getPCBookedDetail(pc.getPCID()) == null ) {
-                                                                BookPCPage bookPCPage = BookPCPage.getInstance(pc.getPCID());
-                                                                bookPCPage.show();
-                                                        } else {
-                                                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                                                alert.setTitle("Error");
-                                                                alert.setHeaderText("PC is already booked");
-                                                                alert.setContentText("Please select another PC");
-                                                                alert.showAndWait();
-                                                                return;
-                                                        }
-                                                });
+                                        if (pc.getPCCondition().equals("Broken")) {
+                                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                                alert.setTitle("Error");
+                                                alert.setHeaderText("PC is broken");
+                                                alert.setContentText("Please select another PC");
+                                                alert.showAndWait();
+                                                return;
                                         }
 
-                                        @Override
-                                        public void updateItem(Void item, boolean empty) {
-                                                super.updateItem(item, empty);
-                                                if (empty) {
-                                                        setGraphic(null);
-                                                } else {
-                                                        setGraphic(btn);
-                                                }
+                                        if (pc.getPCCondition().equals("Maintenance")) {
+                                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                                alert.setTitle("Error");
+                                                alert.setHeaderText("PC is being maintained");
+                                                alert.setContentText("Please select another PC");
+                                                alert.showAndWait();
+                                                return;
                                         }
-                                };
-                                return cell;
+
+                                        if (PCBookController.getPCBookedDetail(pc.getPCID()) == null ) {
+                                                BookPCPage bookPCPage = BookPCPage.getInstance(pc.getPCID());
+                                                bookPCPage.show();
+                                        } else {
+                                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                                alert.setTitle("Error");
+                                                alert.setHeaderText("PC is already booked");
+                                                alert.setContentText("Please select another PC");
+                                                alert.showAndWait();
+                                                return;
+                                        }
+                                });
                         }
-                };
 
-                bookPCColumn.setCellFactory(cellFactory);
+                        @Override
+                        protected void updateItem(Void item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                        setGraphic(null);
+                                } else {
+                                        setGraphic(btn);
+                                }
+                        }
+                });
 
                 pcTable = new TableView<>();
                 pcTable.getColumns().addAll(pcIDColumn, pcConditionColumn, bookPCColumn);

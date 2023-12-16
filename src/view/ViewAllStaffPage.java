@@ -11,7 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.util.Callback;
 import main.MainStage;
 import model.User;
 
@@ -87,39 +86,31 @@ public class ViewAllStaffPage {
 
                 changeRoleColumn.setMinWidth(174);
 
+                changeRoleColumn.setCellFactory(param -> new TableCell<>() {
+                        private final Button btn = new Button("Change Role");
 
-                Callback<TableColumn<User, Void>, TableCell<User, Void>> cellFactory = new Callback<>() {
-                        @Override
-                        public TableCell<User, Void> call(final TableColumn<User, Void> param) {
-                                final TableCell<User, Void> cell = new TableCell<>() {
-                                        private final Button btn = new Button("Change Role");
-
-                                        {
-                                                btn.setOnAction((ActionEvent event) -> {
-                                                        User user = getTableView().getItems().get(getIndex());
-                                                        ChangeRolePage changeRolePage = ChangeRolePage.getInstance(user);
-                                                        changeRolePage.show();
-                                                });
-                                        }
-
-                                        @Override
-                                        public void updateItem(Void item, boolean empty) {
-                                                super.updateItem(item, empty);
-                                                if (empty) {
-                                                        setGraphic(null);
-                                                } else {
-                                                        setGraphic(btn);
-                                                }
-                                        }
-                                };
-                                return cell;
+                        {
+                                btn.setOnAction((ActionEvent event) -> {
+                                        User user = getTableView().getItems().get(getIndex());
+                                        ChangeRolePage changeRolePage = ChangeRolePage.getInstance(user);
+                                        changeRolePage.show();
+                                });
                         }
-                };
+
+                        @Override
+                        public void updateItem(Void item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                        setGraphic(null);
+                                } else {
+                                        setGraphic(btn);
+                                }
+                        }
+                });
 
                 userTable = new TableView<>();
                 userTable.getColumns().addAll(userIDColumn, usernameColumn, userRoleColumn, changeRoleColumn);
                 userTable.setEditable(false);
-                changeRoleColumn.setCellFactory(cellFactory);
                 userTable.getItems().addAll(
                         UserController.getAllUserData().stream()
                                 .filter(user -> user.getUserRole() == 1 || user.getUserRole() == 2 || user.getUserRole() == 3)

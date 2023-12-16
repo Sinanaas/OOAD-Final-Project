@@ -25,12 +25,10 @@ public class RegisterPage {
 //		return registerPage = registerPage == null ? new RegisterPage() : registerPage;
 		return new RegisterPage();
 	}
-
 	private RegisterPage() {
 		initialize();
 		addEventListener();
 	}
-
 	private Scene scene;
 	private VBox vb;
 	private Label registerTitle, usernameTitle, passwordTitle, confirmPasswordTitle, ageTitle;

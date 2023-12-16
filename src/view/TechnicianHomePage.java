@@ -37,7 +37,6 @@ public class TechnicianHomePage {
                 initialize();
                 addEventListener();
         }
-
         public void show() {
                 MainStage mainStage = MainStage.getInstance();
                 mainStage.getStage().setScene(scene);
@@ -61,7 +60,13 @@ public class TechnicianHomePage {
                                 alert.setContentText("Please fill in all fields");
                                 alert.showAndWait();
                                 return;
-                        } else {
+                        } else if (jobStatus.equals("UnComplete")) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("Error");
+                                alert.setContentText("Job status must be Complete");
+                                alert.showAndWait();
+                        }else {
                                 JobController.updateJobStatus(jobID,  jobStatus);
                                 PCController.updatePCCondition(pcID, "Usable");
                                 jobTable.getItems().clear();
