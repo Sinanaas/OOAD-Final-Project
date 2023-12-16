@@ -1,6 +1,7 @@
 package view;
 
 import controller.UserController;
+import helper.Helper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,7 +13,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import main.Main;
 import main.MainStage;
 import model.User;
 
@@ -39,11 +39,7 @@ public class ChangeRolePage {
         private void addEventListener() {
                 button.setOnAction(e -> {
                         if (roleComboBox.getValue() == null) {
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.setTitle("Error");
-                                alert.setHeaderText("Error");
-                                alert.setContentText("Please select a role!");
-                                alert.showAndWait();
+                                Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Please select new role");
                                 return;
                         }
 

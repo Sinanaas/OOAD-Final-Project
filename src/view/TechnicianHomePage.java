@@ -2,6 +2,7 @@ package view;
 
 import controller.JobController;
 import controller.PCController;
+import helper.Helper;
 import helper.UserSessionHelper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -54,18 +55,11 @@ public class TechnicianHomePage {
                         String pcID = pcIDField.getText();
                         String jobStatus = jobStatusCombo.getValue();
                         if (jobID.isEmpty() || userID.isEmpty() || pcID.isEmpty() || jobStatus.isEmpty()) {
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.setTitle("Error");
-                                alert.setHeaderText("Error");
-                                alert.setContentText("Please fill in all fields");
-                                alert.showAndWait();
+                                Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Please fill in all fields");
                                 return;
                         } else if (jobStatus.equals("UnComplete")) {
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.setTitle("Error");
-                                alert.setHeaderText("Error");
-                                alert.setContentText("Job status must be Complete");
-                                alert.showAndWait();
+                                Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Please select a valid job status");
+                                return;
                         }else {
                                 JobController.updateJobStatus(jobID,  jobStatus);
                                 PCController.updatePCCondition(pcID, "Usable");

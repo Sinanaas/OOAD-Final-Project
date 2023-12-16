@@ -12,7 +12,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.Report;
-
 import java.util.ArrayList;
 
 public class ViewAllReportPage {

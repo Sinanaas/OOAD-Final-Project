@@ -1,6 +1,7 @@
 package controller;
 
 import database.Connect;
+import helper.Helper;
 import javafx.scene.control.Alert;
 import model.Job;
 import model.PC;
@@ -13,23 +14,15 @@ import java.util.List;
 public class JobController {
         // addNewJob(UserID, PCID)
         public static void addNewJob(String userID, String pcID) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                 if (userID == null || pcID == null) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Error");
-                        alert.setContentText("Please select user and PC");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Please select a user and a PC");
                 } else {
                         // check if there's already a technician that is already working on fixing the pc
                         List<Job> jobList = Job.getAllJobData();
                         if (jobList != null) {
                                 for (Job job : jobList) {
                                         if (job.getPCID().equals(pcID) && job.getJobStatus().equals("UnComplete")) {
-                                                alert.setTitle("Error");
-                                                alert.setHeaderText("Error");
-                                                alert.setContentText("PC is already being fixed");
-                                                alert.showAndWait();
+                                                Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "There's already a technician that is already working on fixing the pc");
                                                 return;
                                         }
                                 }
@@ -41,25 +34,16 @@ public class JobController {
                                 if (flag == true) {
                                         PCController.updatePCCondition(pcID, "Maintenance");
                                         Job.addNewJob(userID, pcID);
-                                        successAlert.setTitle("Success");
-                                        successAlert.setHeaderText("Success");
-                                        successAlert.setContentText("Successfully added a new job");
-                                        successAlert.showAndWait();
+                                        Helper.showAlert(Alert.AlertType.INFORMATION, "Success", "Success", "Successfully added a new job");
                                         return;
                                 } else {
-                                        alert.setTitle("Error");
-                                        alert.setHeaderText("Error");
-                                        alert.setContentText("Failed to assign user to new PC");
-                                        alert.showAndWait();
+                                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Failed to assign user to new PC");
                                         return;
                                 }
                         } else {
                                 Job.addNewJob(userID, pcID);
                                 PCController.updatePCCondition(pcID, "Maintenance");
-                                successAlert.setTitle("Success");
-                                successAlert.setHeaderText("Success");
-                                successAlert.setContentText("Successfully added a new job");
-                                successAlert.showAndWait();
+                                Helper.showAlert(Alert.AlertType.INFORMATION, "Success", "Success", "Successfully added a new job");
                                 return;
                         }
                 }
@@ -81,32 +65,19 @@ public class JobController {
                 }
 
                 if (!jobStatus.equals("Complete")) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Error");
-                        alert.setContentText("Job status must be complete");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Please select a valid job status");
                         return;
                 }
 
                 if ((jobID == null || jobStatus == null)) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Error");
-                        alert.setContentText("Please select job and status");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Please select a job");
                         return;
                 } else if (isJobConflictWithPCBook)  {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Cannot update job status");
-                        alert.setContentText("Job is conflict with PCBook");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Job is conflict with PC Book");
                         return;
                 } else {
                         Job.updateJobStatus(jobID, jobStatus);
-                        Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
-                        alert1.setTitle("Success");
-                        alert1.setHeaderText("Success");
-                        alert1.setContentText("Update job status successfully");
-                        alert1.showAndWait();
+                        Helper.showAlert(Alert.AlertType.INFORMATION, "Success", "Success", "Successfully updated job status");
                         return;
                 }
         }

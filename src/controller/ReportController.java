@@ -1,32 +1,26 @@
 package controller;
 
+import helper.Helper;
 import javafx.scene.control.Alert;
 import model.Report;
-
 import java.util.List;
 
 public class ReportController {
         public static void addNewReport(Integer userRole, String userID, String reportNote) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
                 if (userRole == null) {
-                        alert.setContentText("User role must not be null");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "User role must not be null", null);
                         return;
                 } else if (userID == null) {
-                        alert.setContentText("User ID must not be null");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "User ID must not be null", null);
                         return;
                 } else if (reportNote == null) {
-                        alert.setContentText("Report note must not be null");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "Report note must not be null", null);
                         return;
                 } else if (reportNote.length() > 100) {
-                        alert.setContentText("Report note must not be more than 100 characters");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "Report note must not be more than 100 characters", null);
                         return;
                 } else if (reportNote.length() < 10) {
-                        alert.setContentText("Report note must not be less than 10 characters");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "Report note must not be less than 10 characters", null);
                         return;
                 }
                 Report.addNewReport(userRole, userID, reportNote);
@@ -39,10 +33,7 @@ public class ReportController {
         // deleteReport(reportID)
         public static void deleteReportByPCID(String reportID) {
                 if (reportID == null) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Report ID cannot be empty");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "Report ID must not be null", null);
                         return;
                 }
                 Report.deleteReportByPCID(reportID);

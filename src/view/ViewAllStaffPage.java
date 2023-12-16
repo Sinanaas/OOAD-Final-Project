@@ -13,7 +13,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.User;
-
 import java.util.stream.Collectors;
 
 public class ViewAllStaffPage {

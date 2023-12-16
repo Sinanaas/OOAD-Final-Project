@@ -11,7 +11,6 @@ import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.TransactionDetail;
 import model.TransactionHeader;
-
 import java.util.ArrayList;
 import java.util.List;
 

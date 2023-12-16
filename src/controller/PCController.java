@@ -1,11 +1,11 @@
 package controller;
 
+import helper.Helper;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import model.Job;
 import model.PC;
 import model.Report;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,42 +16,26 @@ public class PCController {
                 ArrayList<PC> PCList = new ArrayList<>(observableList);
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 if (PCID == null) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID cannot be empty");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID cannot be empty", null);
                         return;
                 } else if (PCCondition == null) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC Condition cannot be empty");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC condition cannot be empty", null);
                         return;
                 } else if (PCID.length() != 5) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID must be 5 characters");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID must be 5 characters", null);
                         return;
                 } else if (!PCID.substring(0, 2).equals("PC")) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID must start with 'PC'");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID must start with 'PC'", null);
                         return;
                 } else if (PCList.stream().noneMatch(pc -> pc.getPCID().equals(PCID))) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID does not exist");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID does not exist", null);
                         return;
                 }  else if (Integer.parseInt(PCID.substring(3, 5)) < 1) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID must be greater than 0");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID must be greater than 0", null);
                         return;
                 }
                 PC.updatePCCondition(PCID, PCCondition);
-                Alert info = new Alert(Alert.AlertType.INFORMATION);
-                info.setTitle("Success");
-                info.setHeaderText("PC updated successfully");
-                info.showAndWait();
-
+                Helper.showAlert(Alert.AlertType.INFORMATION, "Success", "PC condition updated successfully", null);
         }
 
 
@@ -59,35 +43,24 @@ public class PCController {
         public static void addNewPC(String PCID) {
                 ObservableList<PC> observableList = PC.getAllPCData();
                 ArrayList<PC> PCList = new ArrayList<>(observableList);
-                Alert alert = new Alert(Alert.AlertType.ERROR);
                 if (PCID == null) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID cannot be empty");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID cannot be empty", null);
                         return;
                 } else if (PCID.length() != 5) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID must be 5 characters");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID must be 5 characters", null);
                         return;
                 } else if (!PCID.substring(0, 2).equals("PC")) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID must start with 'PC'");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID must start with 'PC'", null);
                         return;
                 } else if (PCList.stream().anyMatch(pc -> pc.getPCID().equals(PCID))) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID already exists");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID already exists", null);
                         return;
                 }
 
                 if (PCID != null && PCList.stream().noneMatch(pc -> pc.getPCID().equals(PCID)) && PCID.length() == 5 && PCID.substring(0, 2).equals("PC")) {
                         PC.addNewPC(PCID);
                         Alert info = new Alert(Alert.AlertType.INFORMATION);
-                        info.setTitle("Success");
-                        info.setHeaderText("PC added successfully");
-                        info.showAndWait();
+                        Helper.showAlert(Alert.AlertType.INFORMATION, "Success", "PC added successfully", null);
                 }
         }
 
@@ -97,80 +70,51 @@ public class PCController {
                 List<Job> jobList = JobController.getAllJobData();
                 List<Report> reportList = ReportController.getAllReportData();
                 ArrayList<PC> PCList = new ArrayList<>(observableList);
-                Alert alert = new Alert(Alert.AlertType.ERROR);
                 if (PCID == null) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID cannot be empty");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID cannot be empty", null);
                         return;
                 } else if (PCID.length() != 5) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID must be 5 characters");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID must be 5 characters", null);
                         return;
                 } else if (!PCID.substring(0, 2).equals("PC")) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID must start with 'PC'");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID must start with 'PC'", null);
                         return;
                 } else if (PCList.stream().noneMatch(pc -> pc.getPCID().equals(PCID))) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID does not exist");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID does not exist", null);
                         return;
                 } else if (PCBookController.getPCBookedDetail(PCID) != null) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC is booked");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC is being booked", null);
                         return;
                 } else if (jobList.stream().anyMatch(job -> job.getPCID().equals(PCID))) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC is being maintained");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC is being used", null);
                         return;
                 }
 
                 if (reportList.stream().anyMatch(report -> report.getPCID().equals(PCID))) {
                         ReportController.deleteReportByPCID(PCID);
-                        Alert info2 = new Alert(Alert.AlertType.INFORMATION);
-                        info2.setTitle("Success");
-                        info2.setHeaderText("Reports that are related to " + PCID + " has been deleted successfully");
-                        info2.showAndWait();
+                        Helper.showAlert(Alert.AlertType.INFORMATION, "Success", "Report deleted successfully", null);
                 }
                 PC.deletePC(PCID);
-                Alert info = new Alert(Alert.AlertType.INFORMATION);
-                info.setTitle("Success");
-                info.setHeaderText("PC deleted successfully");
-                info.showAndWait();
+                Helper.showAlert(Alert.AlertType.INFORMATION, "Success", "PC deleted successfully", null);
         }
 
         // getPCDetail(PCID)
         public  static PC getPCDetail(String PCID) {
                 ObservableList<PC> observableList = PC.getAllPCData();
                 ArrayList<PC> PCList = new ArrayList<>(observableList);
-                Alert alert = new Alert(Alert.AlertType.ERROR);
                 if (PCID == null) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID cannot be empty");
-                        alert.showAndWait();
+                       Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID cannot be empty", null);
                         return null;
                 } else if (PCID.length() != 5) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID must be 5 characters");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID must be 5 characters", null);
                         return null;
                 } else if (!PCID.substring(0, 2).equals("PC")) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID must start with 'PC'");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID must start with 'PC'", null);
                         return null;
                 } else if (PCList.stream().noneMatch(pc -> pc.getPCID().equals(PCID))) {
-                        alert.setTitle("Error");
-                        alert.setHeaderText("PC ID does not exist");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID does not exist", null);
                         return null;
                 }
-
                 return PC.getPCDetail(PCID);
         }
 

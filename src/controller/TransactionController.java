@@ -4,7 +4,6 @@ import model.PCBook;
 import model.TransactionDetail;
 import model.TransactionHeader;
 import model.User;
-
 import java.util.List;
 
 public class TransactionController {

@@ -3,6 +3,7 @@ package view;
 import controller.PCController;
 import controller.ReportController;
 import controller.UserController;
+import helper.Helper;
 import helper.UserSessionHelper;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -83,11 +84,7 @@ public class ReportPage {
 
                         ReportController.addNewReport(user.getUserRole(), pcID, reportNote);
 
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Report PC");
-                        alert.setHeaderText("Report PC Success");
-                        alert.setContentText("Report PC Success");
-                        alert.showAndWait();
+                        Helper.showAlert(Alert.AlertType.INFORMATION, "Report PC", "Report PC", "Report PC Successfully");
 
                         if (user.getUserRole() == 2) {
                                 OperatorHomePage operatorHomePage = OperatorHomePage.getInstance();

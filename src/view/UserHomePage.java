@@ -3,6 +3,7 @@ package view;
 import controller.PCBookController;
 import controller.PCController;
 import controller.TransactionController;
+import helper.Helper;
 import helper.UserSessionHelper;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -102,20 +103,12 @@ public class UserHomePage {
                                         PC pc = getTableView().getItems().get(getIndex());
 
                                         if (pc.getPCCondition().equals("Broken")) {
-                                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                                alert.setTitle("Error");
-                                                alert.setHeaderText("PC is broken");
-                                                alert.setContentText("Please select another PC");
-                                                alert.showAndWait();
+                                                Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC is broken", "Please select another PC");
                                                 return;
                                         }
 
                                         if (pc.getPCCondition().equals("Maintenance")) {
-                                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                                alert.setTitle("Error");
-                                                alert.setHeaderText("PC is being maintained");
-                                                alert.setContentText("Please select another PC");
-                                                alert.showAndWait();
+                                                Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC is under maintenance", "Please select another PC");
                                                 return;
                                         }
 
@@ -123,11 +116,7 @@ public class UserHomePage {
                                                 BookPCPage bookPCPage = BookPCPage.getInstance(pc.getPCID());
                                                 bookPCPage.show();
                                         } else {
-                                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                                alert.setTitle("Error");
-                                                alert.setHeaderText("PC is already booked");
-                                                alert.setContentText("Please select another PC");
-                                                alert.showAndWait();
+                                                Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC is already booked", "Please select another PC");
                                                 return;
                                         }
                                 });

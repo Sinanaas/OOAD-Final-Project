@@ -2,6 +2,7 @@ package view;
 
 import controller.PCBookController;
 import controller.PCController;
+import helper.Helper;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -67,11 +68,7 @@ public class PCManagementPage {
                         String selectedPCCondition = ((PC) pcTable.getSelectionModel().getSelectedItem()).getPCCondition();
 
                         if (PCBookController.getPCBookedDetail(pcID) != null) {
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.setTitle("Error");
-                                alert.setHeaderText("Error");
-                                alert.setContentText("PC is booked");
-                                alert.showAndWait();
+                                Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC is booked", "PC is booked, cannot update PC condition");
                                 return;
                         }
 

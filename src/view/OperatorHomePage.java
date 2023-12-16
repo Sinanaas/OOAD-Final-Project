@@ -2,12 +2,12 @@ package view;
 
 import controller.PCBookController;
 import controller.TransactionController;
+import helper.Helper;
 import helper.UserSessionHelper;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -16,7 +16,6 @@ import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.PCBook;
 import model.TransactionHeader;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -71,21 +70,13 @@ public class OperatorHomePage {
                                         LocalDate bookedDate = pcBookBookedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
                                         if (!LocalDate.now().isBefore(bookedDate)) {
-                                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                                alert.setTitle("Cancel Booking");
-                                                alert.setHeaderText("Cancel Booking");
-                                                alert.setContentText("Cannot cancel booking that already passed");
-                                                alert.showAndWait();
+                                                Helper.showAlert(Alert.AlertType.ERROR, "Error", "Cancel Booking", "Cannot cancel booking that is already passed");
                                                 return;
                                         }
 
                                         PCBookController.deleteBookData(pcBook.getBookID());
 
-                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                        alert.setTitle("Cancel Booking");
-                                        alert.setHeaderText("Cancel Booking");
-                                        alert.setContentText("Cancel Booking Successfully");
-                                        alert.showAndWait();
+                                        Helper.showAlert(Alert.AlertType.INFORMATION, "Cancel Booking", "Cancel Booking", "Cancel Booking Successfully");
                                 }
 
                                 _repaint();
@@ -95,15 +86,11 @@ public class OperatorHomePage {
                 finishBtn.setOnAction(e -> {
                         List<PCBook> selectedPCBooks = pcBookTable.getSelectionModel().getSelectedItems();
                         if (!selectedPCBooks.isEmpty()) {
-                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 TransactionController.addNewTransaction(TransactionHeader.generateID(), selectedPCBooks, UserSessionHelper.getInstance().getLoggedInUserId());
                                 for (PCBook pcBook : selectedPCBooks) {
                                         PCBookController.deleteBookData(pcBook.getBookID());
                                 }
-                                alert.setTitle("Finish Booking");
-                                alert.setHeaderText("Finish Booking");
-                                alert.setContentText("Finish Booking Successfully");
-                                alert.showAndWait();
+                                Helper.showAlert(Alert.AlertType.INFORMATION, "Finish Booking", "Finish Booking", "Finish Booking Successfully");
                                 _repaint();
                         }
                 });
