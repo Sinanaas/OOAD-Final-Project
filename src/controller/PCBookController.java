@@ -24,9 +24,10 @@ public class PCBookController {
                 LocalDate bookLocalDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
                 if (bookLocalDate.isBefore(localDate)) {
-                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Please select a valid date");
+                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Date must be greater than today's date");
                         return false;
                 }
+
                 PCBook.addNewBook(bookID, pcID, userID, date);
                 Helper.showAlert(Alert.AlertType.INFORMATION, "Success", "Success", "Successfully booked a PC");
                 return true;
@@ -42,11 +43,11 @@ public class PCBookController {
         }
 
         // assignUserToNewPC(String userID, String pcID)
-        public static boolean assignUserToNewPC(String userID, String pcID) {
+        public static boolean assignUserToNewPC(String bookID, String pcID) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 Alert error = new Alert(Alert.AlertType.ERROR);
 
-                if (userID == null || pcID == null) {
+                if (bookID == null || pcID == null) {
                         Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Please select a PC");
                         return false;
                 } else {
@@ -56,7 +57,7 @@ public class PCBookController {
                                 for (PC pc : pcList) {
                                         PC temp = PCBookController.getPCBookedDetail(pc.getPCID());
                                         if (temp == null && pc.getPCCondition().equals("Usable") && !pc.getPCID().equals(pcID)) {
-                                                PCBook.assignUserToNewPC(userID,pc.getPCID());
+                                                PCBook.assignUserToNewPC(bookID, pc.getPCID());
                                                 Helper.showAlert(Alert.AlertType.INFORMATION, "Success", "Success", "Successfully assigned a PC");
                                                 return true;
                                         }

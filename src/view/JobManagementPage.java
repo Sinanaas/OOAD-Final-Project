@@ -1,7 +1,7 @@
 package view;
 
 import controller.*;
-import javafx.collections.ObservableList;
+import helper.Helper;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -78,9 +78,6 @@ public class JobManagementPage {
                                 }
                         }
 
-//                        if (PCBookController.getPCBookedDetail(selectedPCID) != null) {
-//                                PCBookController.assignUserToNewPC(selectedTechnicianID, selectedPCID);
-//                        }
                         JobController.addNewJob(selectedTechnicianID, selectedPCID);
                         _repaint();
                 });
@@ -90,11 +87,7 @@ public class JobManagementPage {
                         String selectedJobStatus = jobStatusCombo.getValue();
                         // ini aku taro luar soalnya kalo masukin ke masing-masing controller bakal ribet
                         if (selectedJobID == null || selectedJobStatus == null) {
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.setTitle("Error");
-                                alert.setHeaderText("Error");
-                                alert.setContentText("Please select a job and a job status");
-                                alert.showAndWait();
+                                Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Please select a job and a job status");
                                 return;
                         }
                         JobController.updateJobStatus(selectedJobID, selectedJobStatus);
@@ -199,9 +192,9 @@ public class JobManagementPage {
                 jobCombo = new ComboBox<>();
 
                 // brokenPC
-                ObservableList<PC> observableList1 = PCController.getAllPCData();
+                List<PC> pcList = PCController.getAllPCData();
                 ArrayList<String> brokenPCList = new ArrayList<>();
-                for (PC pc : observableList1) {
+                for (PC pc : pcList) {
                         if (pc.getPCCondition().equals("Broken")) {
                                 brokenPCList.add(pc.getPCID());
                         }

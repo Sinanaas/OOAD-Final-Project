@@ -5,7 +5,6 @@ import controller.ReportController;
 import controller.UserController;
 import helper.Helper;
 import helper.UserSessionHelper;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,6 +15,8 @@ import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.PC;
 import model.User;
+
+import java.util.List;
 
 public class ReportPage {
         private static ReportPage reportPage;
@@ -52,7 +53,7 @@ public class ReportPage {
                 reportNoteTextArea.setPromptText("Write your report here...");
 
 
-                ObservableList<PC> availablePCs = PCController.getAllPCData();
+                List<PC> availablePCs = PCController.getAllPCData();
                 for (PC pc : availablePCs) {
                         pcComboBox.getItems().add(pc.getPCID());
                 }

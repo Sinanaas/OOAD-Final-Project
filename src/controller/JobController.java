@@ -29,8 +29,10 @@ public class JobController {
                         }
                         // Check if the selected PC is booked
                         if (PCBookController.getPCBookedDetail(pcID) != null) {
-                                String tempUserID= PCBookController.getAllPCBookedData().stream().filter(pcBook -> pcBook.getPCID().equals(pcID)).findFirst().get().getUserID();
-                                boolean flag = PCBookController.assignUserToNewPC(tempUserID, pcID);
+//                                String tempUserID= PCBookController.getAllPCBookedData().stream().filter(pcBook -> pcBook.getPCID().equals(pcID)).findFirst().get().getUserID();
+                                List<PCBook> pcBookList = PCBookController.getAllPCBookedData();
+                                PCBook tempPCBook = pcBookList.stream().filter(pcBook -> pcBook.getPCID().equals(pcID)).findFirst().get();
+                                boolean flag = PCBookController.assignUserToNewPC(tempPCBook.getBookID(), pcID);
                                 if (flag == true) {
                                         PCController.updatePCCondition(pcID, "Maintenance");
                                         Job.addNewJob(userID, pcID);

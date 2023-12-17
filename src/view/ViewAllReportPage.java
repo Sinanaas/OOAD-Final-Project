@@ -43,7 +43,7 @@ public class ViewAllReportPage {
         }
         private void initialize() {
                 title = new Label("View All Report Page");
-                title.setFont(javafx.scene.text.Font.font("Arial", FontWeight.BOLD, 24));
+                title.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 
                 // table
                 reportTable = new TableView<>();

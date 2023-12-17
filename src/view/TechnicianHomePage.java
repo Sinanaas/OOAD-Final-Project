@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.Job;
+import model.PC;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class TechnicianHomePage {
         private BorderPane bp;
         private HBox tableHb;
         private Label title;
-        private TableView jobTable;
+        private TableView jobTable, pcTable;
         private VBox vb;
         private ComboBox<String> jobStatusCombo;
         private TextField jobIDField,  userIDField, pcIDField;
@@ -112,6 +113,21 @@ public class TechnicianHomePage {
                 tableHb.getChildren().addAll(jobIDField, userIDField, pcIDField, jobStatusCombo, completeJobBtn);
 
                 // table
+                pcTable = new TableView();
+
+                TableColumn<PC, String> pcIDCols = new TableColumn<>("PC ID");
+                TableColumn<PC, String> pcStatusCol = new TableColumn<>("PC Condition");
+
+                pcIDCols.setMinWidth(388);
+                pcStatusCol.setMinWidth(384);
+
+                pcIDCols.setCellValueFactory(new PropertyValueFactory<>("PCID"));
+                pcStatusCol.setCellValueFactory(new PropertyValueFactory<>("PCCondition"));
+
+                pcTable.getColumns().addAll(pcIDCols, pcStatusCol);
+                pcTable.getItems().addAll(PC.getAllPCData());
+
+                // table
                 jobTable = new TableView();
                 TableColumn<Job, String> jobIDCol = new TableColumn<>("Job ID");
                 TableColumn<Job, String> userIDCol = new TableColumn<>("User ID");
@@ -142,7 +158,7 @@ public class TechnicianHomePage {
                 bp.setRight(logout);
                 vb.setSpacing(10);
                 vb.setPadding(new Insets(15, 12, 15, 12));
-                vb.getChildren().addAll(bp, jobTable, tableHb);
+                vb.getChildren().addAll(bp, pcTable, jobTable, tableHb);
                 vb.setAlignment(Pos.CENTER);
                 scene = new Scene(vb, 800, 600);
         }

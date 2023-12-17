@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
+import model.PC;
 import model.PCBook;
 import model.TransactionHeader;
 import java.time.LocalDate;
@@ -29,6 +30,8 @@ public class OperatorHomePage {
         }
         private Label title;
         private BorderPane bp;
+        private TableView pcTable;
+        private ScrollPane sp;
         private HBox hb;
         private Scene scene;
         private VBox vb;
@@ -44,6 +47,8 @@ public class OperatorHomePage {
         public void _repaint() {
                 pcBookTable.getItems().clear();
                 pcBookTable.getItems().addAll(PCBookController.getAllPCBookedData());
+                pcTable.getItems().clear();
+                pcTable.getItems().addAll(PC.getAllPCData());
                 pcIDInput.clear();
                 userIDInput.clear();
                 bookedDateInput.clear();
@@ -96,7 +101,7 @@ public class OperatorHomePage {
                 });
 
                 reassignBtn.setOnAction(e -> {
-                        PCBookController.assignUserToNewPC(userIDInput.getText(), pcIDInput.getText());
+                        PCBookController.assignUserToNewPC(pcBookIDInput.getText(), pcIDInput.getText());
                         _repaint();
                 });
 
@@ -148,6 +153,23 @@ public class OperatorHomePage {
                 hb.setSpacing(10);
                 hb.getChildren().addAll(pcBookIDInput, pcIDInput, userIDInput, bookedDateInput, cancelBtn, finishBtn, reassignBtn);
 
+                // table
+                pcTable = new TableView();
+
+                TableColumn<PC, String> pcIDCols = new TableColumn<>("PC ID");
+                TableColumn<PC, String> pcStatusCol = new TableColumn<>("PC Condition");
+
+                pcIDCols.setMinWidth(388);
+                pcStatusCol.setMinWidth(380);
+
+                pcIDCols.setCellValueFactory(new PropertyValueFactory<>("PCID"));
+                pcStatusCol.setCellValueFactory(new PropertyValueFactory<>("PCCondition"));
+
+                pcTable.getColumns().addAll(pcIDCols, pcStatusCol);
+                pcTable.getItems().addAll(PC.getAllPCData());
+
+
+
                 vb = new VBox();
                 pcBookTable = new TableView();
                 vb.setSpacing(10);
@@ -172,7 +194,7 @@ public class OperatorHomePage {
                 pcBookTable.getColumns().addAll(bookIDCol, pcIDCol, userIDCol, bookedDateCol);
                 pcBookTable.getItems().addAll(PCBookController.getAllPCBookedData());
                 pcBookTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-                vb.getChildren().addAll(bp, pcBookTable, hb, report);
+                vb.getChildren().addAll(bp, pcTable, pcBookTable, hb, report);
                 vb.setPadding(new Insets(12, 15, 12, 15));
                 scene = new Scene(vb, 800, 600);
         }

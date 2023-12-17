@@ -1,7 +1,6 @@
 package controller;
 
 import helper.Helper;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import model.Job;
 import model.PC;
@@ -12,9 +11,7 @@ import java.util.List;
 public class PCController {
         // updatePC(PCID, PCCondition)
         public static void updatePCCondition(String PCID, String PCCondition) {
-                ObservableList<PC> observableList = PC.getAllPCData();
-                ArrayList<PC> PCList = new ArrayList<>(observableList);
-                Alert alert = new Alert(Alert.AlertType.ERROR);
+                ArrayList<PC> PCList = new ArrayList<>(PC.getAllPCData());
                 if (PCID == null) {
                         Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID cannot be empty", null);
                         return;
@@ -41,8 +38,7 @@ public class PCController {
 
         // addNewPC(PCOD)
         public static void addNewPC(String PCID) {
-                ObservableList<PC> observableList = PC.getAllPCData();
-                ArrayList<PC> PCList = new ArrayList<>(observableList);
+                ArrayList<PC> PCList = new ArrayList<>(PC.getAllPCData());
                 if (PCID == null) {
                         Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID cannot be empty", null);
                         return;
@@ -66,10 +62,9 @@ public class PCController {
 
         // deletePC(PCID)
         public static void deletePC(String PCID) {
-                ObservableList<PC> observableList = PC.getAllPCData();
                 List<Job> jobList = JobController.getAllJobData();
                 List<Report> reportList = ReportController.getAllReportData();
-                ArrayList<PC> PCList = new ArrayList<>(observableList);
+                ArrayList<PC> PCList = new ArrayList<>(PC.getAllPCData());
                 if (PCID == null) {
                         Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID cannot be empty", null);
                         return;
@@ -100,8 +95,7 @@ public class PCController {
 
         // getPCDetail(PCID)
         public  static PC getPCDetail(String PCID) {
-                ObservableList<PC> observableList = PC.getAllPCData();
-                ArrayList<PC> PCList = new ArrayList<>(observableList);
+                ArrayList<PC> PCList = new ArrayList<>(PC.getAllPCData());
                 if (PCID == null) {
                        Helper.showAlert(Alert.AlertType.ERROR, "Error", "PC ID cannot be empty", null);
                         return null;
@@ -119,7 +113,7 @@ public class PCController {
         }
 
         // getAllPCData()
-        public static ObservableList getAllPCData() {
+        public static List<PC> getAllPCData() {
                 return PC.getAllPCData();
         }
 }

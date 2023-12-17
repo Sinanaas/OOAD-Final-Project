@@ -73,7 +73,7 @@ public class UserHomePage {
                 label.setFont(Font.font("Arial", FontWeight.BOLD, 36));
                 reportButton = new Button("Report PC");
                 VBox vb = new VBox();
-                vb.setAlignment(Pos.CENTER_LEFT); // Set alignment to center
+                vb.setAlignment(Pos.CENTER_LEFT);
                 vb.setPadding(new Insets(15, 12, 15, 12));
                 vb.setSpacing(10);
 

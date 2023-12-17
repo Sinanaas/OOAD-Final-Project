@@ -1,10 +1,10 @@
 package model;
 
 import database.Connect;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PC {
         private String PCID;
@@ -32,13 +32,13 @@ public class PC {
         }
 
         //getAllPCData()
-        public static ObservableList<PC> getAllPCData() {
+        public static List<PC> getAllPCData() {
                 Connect connect = Connect.getConnection();
                 String query = "SELECT * FROM PC";
                 ResultSet rs = connect.executeQuery(query);
 
                 try {
-                        ObservableList<PC> pcList = FXCollections.observableArrayList();
+                        List<PC> pcList = new ArrayList<>();
                         while (rs.next()) {
                                 String PCID = rs.getString("PCID");
                                 String PCCondition = rs.getString("PCCondition");

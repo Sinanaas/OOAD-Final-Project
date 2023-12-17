@@ -108,18 +108,18 @@ public class PCBook {
         }
 
         // assignUserToNewPC(String userID, String pcID,)
-        public static void assignUserToNewPC(String userID, String pcID) {
+        public static void assignUserToNewPC(String bookID, String pcID) {
                 Connect connect = Connect.getConnection();
 
-                String query = "UPDATE PCBook SET PCID = ? WHERE UserID = ?";
-
-                try (PreparedStatement preparedStatement = connect.prepareStatement(query)) {
-                        preparedStatement.setString(1, pcID);
-                        preparedStatement.setString(2, userID);
-                        preparedStatement.executeUpdate();
-                } catch (SQLException e) {
-                        e.printStackTrace();
-                }
+                String query = String.format("UPDATE PCBook SET PCID = '%s' WHERE BookID = '%s'", pcID, bookID);
+                connect.executeUpdate(query);
+//                try (PreparedStatement preparedStatement = connect.prepareStatement(query)) {
+//                        preparedStatement.setString(1, pcID);
+//                        preparedStatement.setString(2, userID);
+//                        preparedStatement.executeUpdate();
+//                } catch (SQLException e) {
+//                        e.printStackTrace();
+//                }
         }
 
 

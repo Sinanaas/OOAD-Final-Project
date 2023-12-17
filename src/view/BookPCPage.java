@@ -49,6 +49,12 @@ public class BookPCPage {
         public void show() {
                 MainStage mainStage = MainStage.getInstance();
                 mainStage.getStage().setScene(scene);
+//                _repaint();
+        }
+        public void _repaint() {
+                pcIDInput.setText("");
+                bookIdInput.setText("");
+                datePicker.setValue(null);
         }
         private void initialize() {
                 title = new Label("Book PC Page");
