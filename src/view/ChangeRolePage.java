@@ -111,8 +111,8 @@ public class ChangeRolePage {
                 labelsVBox = new VBox(back, title, userIDLabel, usernameLabel, userPasswordLabel, userAgeLabel, userRoleLabel, hb, button);
                 labelsVBox.setAlignment(Pos.CENTER_LEFT);
                 labelsVBox.setPadding(new Insets(45, 12, 15, 12));
-
-                scene = new Scene(new VBox(20, labelsVBox), 800, 600);
+                labelsVBox.setSpacing(10);
+                scene = new Scene(labelsVBox, 800, 600);
         }
 
         public void show() {

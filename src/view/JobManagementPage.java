@@ -86,7 +86,7 @@ public class JobManagementPage {
                         String selectedJobID = jobIDField.getText();
                         String selectedJobStatus = jobStatusCombo.getValue();
                         // ini aku taro luar soalnya kalo masukin ke masing-masing controller bakal ribet
-                        if (selectedJobID == null || selectedJobStatus == null) {
+                        if (selectedJobID == null || selectedJobStatus == null || selectedJobID.isEmpty() || selectedJobStatus.isEmpty()) {
                                 Helper.showAlert(Alert.AlertType.ERROR, "Error", "Error", "Please select a job and a job status");
                                 return;
                         }
