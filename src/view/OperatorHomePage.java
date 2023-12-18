@@ -18,6 +18,7 @@ import model.PC;
 import model.PCBook;
 import model.TransactionHeader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
@@ -90,15 +91,27 @@ public class OperatorHomePage {
 
                 finishBtn.setOnAction(e -> {
                         List<PCBook> selectedPCBooks = pcBookTable.getSelectionModel().getSelectedItems();
+                        // to check if the booked date is before now
                         if (!selectedPCBooks.isEmpty()) {
+                                for (PCBook pcBook : selectedPCBooks) {
+                                        Date pcBookBookedDate = new Date(pcBook.getBookedDate().getTime());
+                                        LocalDate bookedDate = pcBookBookedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                                        if (LocalDate.now().isBefore(bookedDate)) {
+                                                Helper.showAlert(Alert.AlertType.ERROR, "Error", "Finish Booking", "Cannot finish booking that haven't been passed");
+                                                return;
+                                        }
+                                }
                                 TransactionController.addNewTransaction(TransactionHeader.generateID(), selectedPCBooks, UserSessionHelper.getInstance().getLoggedInUserId());
                                 for (PCBook pcBook : selectedPCBooks) {
                                         PCBookController.deleteBookData(pcBook.getBookID());
                                 }
+
                                 Helper.showAlert(Alert.AlertType.INFORMATION, "Finish Booking", "Finish Booking", "Finish Booking Successfully");
                                 _repaint();
                         }
                 });
+
 
                 reassignBtn.setOnAction(e -> {
                         PCBookController.assignUserToNewPC(pcBookIDInput.getText(), pcIDInput.getText());
