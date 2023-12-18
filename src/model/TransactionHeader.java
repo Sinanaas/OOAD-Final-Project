@@ -58,9 +58,26 @@ public class TransactionHeader {
         }
 
         // addNewTransactionHeader(StaffID, StaffName)
-        public static void addNewTransactionHeader(String staffID, String staffName) {
+//        public static void addNewTransactionHeader(String staffID, String staffName) {
+//                String transactionID = generateID();
+//                Timestamp transactionTime = Timestamp.from(Instant.now());
+//
+//                Connect connect = Connect.getConnection();
+//                String query = String.format("INSERT INTO TransactionHeader VALUES('%s', '%s', '%s', '%s')", transactionID, staffID, staffName, transactionTime);
+//                connect.executeUpdate(query);
+//        }
+
+        public static void addNewTransactionHeader(String staffID, Timestamp transactionTime) {
                 String transactionID = generateID();
-                Timestamp transactionTime = Timestamp.from(Instant.now());
+//                Timestamp transactionTime = Timestamp.from(Instant.now());
+                List<User> userList = User.getAllUserData();
+                String staffName = "";
+                for (User user : userList) {
+                        if (user.getUserID().equals(staffID)) {
+                                staffName = user.getUsername();
+                                break;
+                        }
+                }
 
                 Connect connect = Connect.getConnection();
                 String query = String.format("INSERT INTO TransactionHeader VALUES('%s', '%s', '%s', '%s')", transactionID, staffID, staffName, transactionTime);

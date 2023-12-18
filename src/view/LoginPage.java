@@ -16,6 +16,9 @@ import main.MainStage;
 import model.User;
 import helper.UserSessionHelper;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 public class LoginPage {
 	private static LoginPage loginPage;
 
@@ -43,6 +46,8 @@ public class LoginPage {
 	}
 
 	private void initialize() {
+		Timestamp transactionTime = Timestamp.from(Instant.now());
+		System.out.println(transactionTime);
 		vb = new VBox(10);
 		loginTitle = new Label("Login");
 		usernameTitle = new Label("Username");

@@ -4,6 +4,9 @@ import model.PCBook;
 import model.TransactionDetail;
 import model.TransactionHeader;
 import model.User;
+
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 public class TransactionController {
@@ -23,7 +26,8 @@ public class TransactionController {
                                 break;
                         }
                 }
-                TransactionHeader.addNewTransactionHeader(staffID, staffName);
+                Timestamp now = Timestamp.from(Instant.now());
+                TransactionHeader.addNewTransactionHeader(staffID, now);
                 List<TransactionHeader> transactionHeaderList = TransactionHeader.getAllTransactionHeaderData();
                 String tempTransactionID  = transactionHeaderList.get(transactionHeaderList.size() - 1).getTransactionID();
                 TransactionDetail.addNewTransactionDetail(tempTransactionID, pcBookList);
